@@ -7,13 +7,13 @@
         {
           "id": 1762190207045.826,
           "name": "John Bowen",
-          "played": 0,
-          "won": 0,
+          "played": 1,
+          "won": 1,
           "drawn": 0,
           "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
-          "points": 0,
+          "framesFor": 4,
+          "framesAgainst": 2,
+          "points": 3,
           "phone": "07368 381757"
         },
         {
@@ -116,12 +116,12 @@
         {
           "id": 1762190207046.637,
           "name": "Gareth Peters",
-          "played": 0,
+          "played": 1,
           "won": 0,
           "drawn": 0,
-          "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
+          "lost": 1,
+          "framesFor": 2,
+          "framesAgainst": 4,
           "points": 0,
           "phone": "07876 337165",
           "notes": "Evenings (not Wed). Occasional afternoons"
@@ -256,6 +256,20 @@
       ]
     }
   ],
-  "matches": [],
-  "lastUpdated": "11/4/2025, 8:57:19 AM"
+  "matches": [
+    {
+      "id": 1762285861527,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207045.826,
+      "awayTeamId": 1762190207046.637,
+      "homeTeamName": "John Bowen",
+      "awayTeamName": "Gareth Peters",
+      "homeScore": 4,
+      "awayScore": 2,
+      "date": "2025-11-04",
+      "timeRecorded": "19:51"
+    }
+  ],
+  "lastUpdated": "04/11/2025, 19:51:01"
 }
