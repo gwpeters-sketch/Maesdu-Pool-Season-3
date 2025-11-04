@@ -75,6 +75,7 @@
                 this.newTeamName = '';
                 this.selectedDivision = '';
                 this.showOnlyUnplayed = false; // Toggle for showing only uncompleted fixtures
+                this.selectedPlayerFilter = ''; // Filter to show only specific player's fixtures
                 this.newMatch = {
                     division: '',
                     homeTeam: '',
@@ -786,6 +787,16 @@
                 );
             }
 
+            getAllTeams() {
+                const allTeams = [];
+                this.divisions.forEach(div => {
+                    div.teams.forEach(team => {
+                        allTeams.push({ id: team.id, name: team.name, divisionId: div.id });
+                    });
+                });
+                return allTeams.sort((a, b) => a.name.localeCompare(b.name));
+            }
+
             renderFixtures() {
                 const isAllDivisions = this.filterDivision === 'all';
                 const filteredDivisions = this.getFilteredDivisions().filter(d => d.teams.length >= 2);
@@ -799,10 +810,14 @@
                             </select>
                         </div>
                         
-                        <div class="mb-4 flex gap-2">
+                        <div class="mb-4 flex gap-2 flex-wrap">
                             <button onclick="app.showOnlyUnplayed = !app.showOnlyUnplayed; app.render();" class="px-4 py-2 rounded-lg font-semibold transition-colors ${this.showOnlyUnplayed ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}">
                                 ${this.showOnlyUnplayed ? 'Press for All Fixtures' : 'Press for Outstanding Fixtures Only'}
                             </button>
+                            <select onchange="app.selectedPlayerFilter = this.value; app.render();" class="px-4 py-2 border rounded-lg font-semibold">
+                                <option value="">All Players</option>
+                                ${this.getAllTeams().map(team => `<option value="${team.id}" ${this.selectedPlayerFilter === team.id.toString() ? 'selected' : ''}>${team.name}</option>`).join('')}
+                            </select>
                         </div>
                         
                         <div class="mb-6 p-4 bg-yellow-50 border border-blue-200 rounded-lg">
@@ -823,14 +838,28 @@
                                     ${this.generateFixtures(div.id).map(round => {
                                         const roundKey = `${div.id}-${round.round}`;
                                         const isExpanded = this.expandedRounds[roundKey] !== false; // Default to expanded
-                                        // Filter matches if showing only unplayed
-                                        const filteredMatches = this.showOnlyUnplayed 
-                                            ? round.matches.filter(match => {
+                                        // Filter matches if showing only unplayed or specific player
+                                        const filteredMatches = round.matches.filter(match => {
+                                            // Filter by player if selected
+                                            if (this.selectedPlayerFilter) {
+                                                if (match.isBye) {
+                                                    return match.home.id.toString() === this.selectedPlayerFilter;
+                                                } else {
+                                                    if (match.home.id.toString() !== this.selectedPlayerFilter && match.away.id.toString() !== this.selectedPlayerFilter) {
+                                                        return false;
+                                                    }
+                                                }
+                                            }
+                                            
+                                            // Filter by unplayed if toggled
+                                            if (this.showOnlyUnplayed) {
                                                 if (match.isBye) return true; // Always show byes
                                                 const result = this.getMatchResult(div.id, match.home.id, match.away.id);
                                                 return !result; // Show only if no result
-                                            })
-                                            : round.matches;
+                                            }
+                                            
+                                            return true;
+                                        });
                                         
                                         // Hide round if no matches to display
                                         if (filteredMatches.length === 0) return '';
