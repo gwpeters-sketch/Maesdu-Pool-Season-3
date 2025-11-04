@@ -31,13 +31,13 @@
         {
           "id": 1762190207046.3625,
           "name": "Brian Mercer",
-          "played": 0,
-          "won": 0,
+          "played": 1,
+          "won": 1,
           "drawn": 0,
           "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
-          "points": 0,
+          "framesFor": 4,
+          "framesAgainst": 2,
+          "points": 3,
           "phone": "07723 352439"
         },
         {
@@ -91,12 +91,12 @@
         {
           "id": 1762190207046.3696,
           "name": "Matt Lancaster",
-          "played": 0,
+          "played": 1,
           "won": 0,
           "drawn": 0,
-          "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
+          "lost": 1,
+          "framesFor": 2,
+          "framesAgainst": 4,
           "points": 0,
           "phone": "07921 539360",
           "notes": "Unavailable Tues/Thurs"
@@ -258,6 +258,19 @@
   ],
   "matches": [
     {
+      "id": 1762290176421,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207046.2644,
+      "awayTeamId": 1762190207046.7803,
+      "homeTeamName": "Trevor Warwick",
+      "awayTeamName": "Colin Jones",
+      "homeScore": 2,
+      "awayScore": 4,
+      "date": "2025-11-04",
+      "timeRecorded": "21:02"
+    },
+    {
       "id": 1762289877802,
       "divisionId": 1762190200307,
       "divisionName": "Division 2",
@@ -271,18 +284,18 @@
       "timeRecorded": "20:57"
     },
     {
-      "id": 1762290176421,
+      "id": 1762290192269,
       "divisionId": 1762181743063,
       "divisionName": "Division 1",
-      "homeTeamId": 1762190207046.2644,
-      "awayTeamId": 1762190207046.7803,
-      "homeTeamName": "Trevor Warwick",
-      "awayTeamName": "Colin Jones",
-      "homeScore": 2,
-      "awayScore": 4,
+      "homeTeamId": 1762190207046.3625,
+      "awayTeamId": 1762190207046.3696,
+      "homeTeamName": "Brian Mercer",
+      "awayTeamName": "Matt Lancaster",
+      "homeScore": 4,
+      "awayScore": 2,
       "date": "2025-11-04",
-      "timeRecorded": "21:02"
+      "timeRecorded": "21:03"
     }
   ],
-  "lastUpdated": "04/11/2025, 21:02:56"
+  "lastUpdated": "04/11/2025, 21:03:12"
 }
