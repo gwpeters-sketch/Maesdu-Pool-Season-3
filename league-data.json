@@ -159,13 +159,13 @@
         {
           "id": 1762190229542.3638,
           "name": "Luke Thomas",
-          "played": 0,
-          "won": 0,
+          "played": 1,
+          "won": 1,
           "drawn": 0,
           "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
-          "points": 0,
+          "framesFor": 4,
+          "framesAgainst": 2,
+          "points": 3,
           "phone": "07833 307544"
         },
         {
@@ -220,12 +220,12 @@
         {
           "id": 1762190229542.7312,
           "name": "Tony Evans",
-          "played": 0,
+          "played": 1,
           "won": 0,
           "drawn": 0,
-          "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
+          "lost": 1,
+          "framesFor": 2,
+          "framesAgainst": 4,
           "points": 0,
           "phone": "07523 273659"
         },
@@ -257,6 +257,19 @@
     }
   ],
   "matches": [
+    {
+      "id": 1762288172286,
+      "divisionId": 1762190200307,
+      "divisionName": "Division 2",
+      "homeTeamId": 1762190229542.5706,
+      "awayTeamId": 1762190229542.0042,
+      "homeTeamName": "Mark Troughton",
+      "awayTeamName": "Adrian Haywood",
+      "homeScore": 3,
+      "awayScore": 3,
+      "date": "2025-11-04",
+      "timeRecorded": "20:29"
+    },
     {
       "id": 1762288157922,
       "divisionId": 1762190200307,
@@ -336,18 +349,18 @@
       "timeRecorded": "20:27"
     },
     {
-      "id": 1762288172286,
+      "id": 1762288186006,
       "divisionId": 1762190200307,
       "divisionName": "Division 2",
-      "homeTeamId": 1762190229542.5706,
-      "awayTeamId": 1762190229542.0042,
-      "homeTeamName": "Mark Troughton",
-      "awayTeamName": "Adrian Haywood",
-      "homeScore": 3,
-      "awayScore": 3,
+      "homeTeamId": 1762190229542.3638,
+      "awayTeamId": 1762190229542.7312,
+      "homeTeamName": "Luke Thomas",
+      "awayTeamName": "Tony Evans",
+      "homeScore": 4,
+      "awayScore": 2,
       "date": "2025-11-04",
       "timeRecorded": "20:29"
     }
   ],
-  "lastUpdated": "04/11/2025, 20:29:32"
+  "lastUpdated": "04/11/2025, 20:29:46"
 }
