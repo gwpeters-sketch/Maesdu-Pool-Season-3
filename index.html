@@ -281,6 +281,9 @@
                 this.selectedDivision = '';
                 this.showOnlyUnplayed = false; // Toggle for showing only uncompleted fixtures
                 this.selectedPlayerFilter = ''; // Filter to show only specific player's fixtures
+                this.adminUnlocked = false; // Admin tab visibility toggle
+                this.keyPressCount = 0; // Track 'A' key presses for unlock
+                this.lastKeyPressTime = 0; // Track timing between key presses
                 this.newMatch = {
                     division: '',
                     homeTeam: '',
@@ -301,6 +304,41 @@
                 this.loadData();
                 this.render();
                 this.setupEventListeners();
+                this.checkAdminAccess();
+            }
+
+            checkAdminAccess() {
+                // Check URL parameter for admin access
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('admin') === 'true') {
+                    this.adminUnlocked = true;
+                }
+                
+                // Console hint for developers/admins
+                console.log('%c🔐 Pool League Admin Access', 'font-size: 14px; font-weight: bold; color: #4f46e5;');
+                console.log('%cPress "A" key 3 times to toggle admin tab, or use URL: ?admin=true', 'color: #666;');
+            }
+
+            handleKeyPress(event) {
+                // Check for 'A' or 'a' key
+                if (event.key.toLowerCase() === 'a') {
+                    const now = Date.now();
+                    
+                    // Reset counter if more than 1 second has passed
+                    if (now - this.lastKeyPressTime > 1000) {
+                        this.keyPressCount = 0;
+                    }
+                    
+                    this.keyPressCount++;
+                    this.lastKeyPressTime = now;
+                    
+                    // Unlock admin on 3 presses within 1 second intervals
+                    if (this.keyPressCount === 3) {
+                        this.adminUnlocked = !this.adminUnlocked;
+                        this.keyPressCount = 0;
+                        this.render();
+                    }
+                }
             }
 
             loadData() {
@@ -832,7 +870,7 @@
                                 <!-- Desktop (lg+): Tabs and contact inline -->
                                 <div class="hidden lg:flex border-b justify-between items-center">
                                     <div class="flex overflow-x-auto">
-                                        ${['standings', 'fixtures', 'results', 'players', 'admin'].map(tab => {
+                                        ${['standings', 'fixtures', 'results', 'players', ...(this.adminUnlocked ? ['admin'] : [])].map(tab => {
                                             const icons = { 'standings': '🏆', 'fixtures': '📋', 'results': '✅', 'players': '👥', 'admin': '⚙️' };
                                             const tabNames = { 'standings': 'Standings', 'fixtures': 'Fixtures', 'results': 'Results', 'players': 'Players', 'admin': 'Admin' };
                                             return `
@@ -850,7 +888,7 @@
                                 <div class="lg:hidden">
                                     <div class="border-b overflow-x-auto">
                                         <div class="flex">
-                                            ${['standings', 'fixtures', 'results', 'players', 'admin'].map(tab => {
+                                            ${['standings', 'fixtures', 'results', 'players', ...(this.adminUnlocked ? ['admin'] : [])].map(tab => {
                                                 const icons = { 'standings': '🏆', 'fixtures': '📋', 'results': '✅', 'players': '👥', 'admin': '⚙️' };
                                                 const tabNames = { 'standings': 'Standings', 'fixtures': 'Fixtures', 'results': 'Results', 'players': 'Players', 'admin': 'Admin' };
                                                 return `
@@ -1465,6 +1503,9 @@
                     });
                     adminPasswordInput.focus();
                 }
+                
+                // Add global keyboard listener for admin unlock (press 'A' 3 times)
+                document.addEventListener('keydown', (e) => this.handleKeyPress(e));
             }
 
             saveToGitHub() {
