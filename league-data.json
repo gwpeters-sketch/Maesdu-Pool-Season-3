@@ -1,0 +1,261 @@
+{
+  "divisions": [
+    {
+      "id": 1762181743063,
+      "name": "Division 1",
+      "teams": [
+        {
+          "id": 1762190207045.826,
+          "name": "John Bowen",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07368 381757"
+        },
+        {
+          "id": 1762190207046.2644,
+          "name": "Trevor Warwick",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07862 719066"
+        },
+        {
+          "id": 1762190207046.3625,
+          "name": "Brian Mercer",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07723 352439"
+        },
+        {
+          "id": 1762190207046.4993,
+          "name": "Steve Hughes",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07958 545751"
+        },
+        {
+          "id": 1762190207046.8584,
+          "name": "Brad Walker",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07960 099232"
+        },
+        {
+          "id": 1762190207046.9954,
+          "name": "Steve Pettigrew",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07738 017141"
+        },
+        {
+          "id": 1762190207046.8032,
+          "name": "Neil Brown",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07765 830771"
+        },
+        {
+          "id": 1762190207046.3696,
+          "name": "Matt Lancaster",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07921 539360",
+          "notes": "Unavailable Tues/Thurs"
+        },
+        {
+          "id": 1762190207046.7803,
+          "name": "Colin Jones",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07786 669400"
+        },
+        {
+          "id": 1762190207046.637,
+          "name": "Gareth Peters",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07876 337165",
+          "notes": "Evenings (not Wed). Occasional afternoons"
+        }
+      ]
+    },
+    {
+      "id": 1762190200307,
+      "name": "Division 2",
+      "teams": [
+        {
+          "id": 1762190229542.6006,
+          "name": "Colin Young",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07778 412747"
+        },
+        {
+          "id": 1762190229542.5706,
+          "name": "Mark Troughton",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07935 464884"
+        },
+        {
+          "id": 1762190229542.3638,
+          "name": "Luke Thomas",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07833 307544"
+        },
+        {
+          "id": 1762190229542.28,
+          "name": "James Salt",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07734 396171"
+        },
+        {
+          "id": 1762190229542.5667,
+          "name": "Dave Roberts",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07778 831741"
+        },
+        {
+          "id": 1762190229542.5425,
+          "name": "Marc Jones",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07737 602462"
+        },
+        {
+          "id": 1762190229542.994,
+          "name": "Barri Rawlings",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07730 279671",
+          "notes": "Unavailable Mon/Wed evenings"
+        },
+        {
+          "id": 1762190229542.7312,
+          "name": "Tony Evans",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07523 273659"
+        },
+        {
+          "id": 1762190229542.0042,
+          "name": "Adrian Haywood",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07771 623148"
+        },
+        {
+          "id": 1762190229542.4602,
+          "name": "Robbie Hughes",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0,
+          "phone": "07876 535395"
+        }
+      ]
+    }
+  ],
+  "matches": [],
+  "lastUpdated": "11/4/2025, 8:57:19 AM"
+}

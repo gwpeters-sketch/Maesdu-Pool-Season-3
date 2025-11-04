@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4f46e5">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="description" content="Maesdu Pool League - Live standings, fixtures, and results">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Pool League">
+    <title>Maesdu Pool League</title>
+    <link rel="shortcut icon" href="https://i.ibb.co/XxFNc9Wx/Rack.png" type="image/png">
+    <link rel="icon" href="https://i.ibb.co/XxFNc9Wx/Rack.png" type="image/png">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/XxFNc9Wx/Rack.png">
+    <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Maesdu%20Pool%20League%22,%22short_name%22:%22Pool%20League%22,%22start_url%22:%22/%22,%22display%22:%22standalone%22,%22background_color%22:%22%23ffffff%22,%22theme_color%22:%22%234f46e5%22,%22icons%22:[{%22src%22:%22https://i.ibb.co/XxFNc9Wx/Rack.png%22,%22sizes%22:%22192x192%22,%22type%22:%22image/png%22,%22purpose%22:%22any%22},{%22src%22:%22https://i.ibb.co/XxFNc9Wx/Rack.png%22,%22sizes%22:%22512x512%22,%22type%22:%22image/png%22,%22purpose%22:%22any%22}]}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Mobile responsive sizing */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.5rem !important; }
+            h2 { font-size: 1.25rem !important; }
+            h3 { font-size: 1.1rem !important; }
+            .text-4xl { font-size: 1.875rem !important; }
+            .text-3xl { font-size: 1.5rem !important; }
+            .text-2xl { font-size: 1.25rem !important; }
+            img { max-height: 75px !important; width: auto !important; }
+            .league-logo { max-height: 40px !important; }
+            .max-w-6xl { max-width: 100% !important; }
+        }
+
+        @media print {
+            * { margin: 0; padding: 0; }
+            html, body { margin: 0; padding: 0; }
+            body { background: white; font-size: 10pt; }
+            .no-print { display: none !important; }
+            .print-full { width: 100% !important; max-width: 100% !important; }
+            @page { margin: 10mm; size: A4; }
+            @page :first-page { margin-top: 10mm; }
+            @page :last-page { margin-bottom: 10mm; }
+            .max-w-6xl { max-width: 100% !important; width: 100%; }
+            .shadow-lg { box-shadow: none !important; border: 1px solid #ddd; }
+            .rounded-lg { border-radius: 0; }
+            table { page-break-inside: avoid; width: 100% !important; }
+            thead { display: table-header-group; }
+            tr { page-break-inside: avoid; }
+            h1, h2, h3 { page-break-after: avoid; margin-top: 0.5cm; }
+            .mb-4, .mb-6, .mb-8 { margin-bottom: 0.3cm; }
+            .p-6 { padding: 0.5cm !important; }
+            img { max-width: 100%; height: auto; }
+            .overflow-x-auto { overflow: visible; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div id="app"></div>
+
+    <script>
+        // GitHub configuration
+        const GITHUB_CONFIG = {
+            owner: 'gwpeters-sketch',
+            repo: 'Maesdu-Pool-Season-3',
+            branch: 'main',
+            filePath: 'index.html',
+            dataFile: 'league-data.json'
+        };
+
+        class LeagueApp {
+            constructor() {
+                this.activeTab = 'standings';
+                this.divisions = [];
+                this.matches = [];
+                this.newTeamName = '';
+                this.selectedDivision = '';
+                this.newMatch = {
+                    division: '',
+                    homeTeam: '',
+                    awayTeam: '',
+                    homeScore: '',
+                    awayScore: '',
+                    date: new Date().toISOString().split('T')[0]
+                };
+                this.isAdminAuthenticated = false;
+                this.adminPassword = '';
+                this.showResetConfirm = false;
+                this.showFactoryResetConfirm = false;
+                this.filterDivision = 'all';
+                this.ADMIN_PASSWORD = 'cuffy';
+                this.divisonColors = ['bg-blue-100 text-blue-800', 'bg-green-100 text-green-800', 'bg-purple-100 text-purple-800', 'bg-orange-100 text-orange-800', 'bg-pink-100 text-pink-800', 'bg-yellow-100 text-yellow-800'];
+                this.expandedRounds = {}; // Track which rounds are expanded
+                
+                this.loadData();
+                this.render();
+                this.setupEventListeners();
+            }
+
+            loadData() {
+                // Load from league-data.json file
+                fetch('league-data.json')
+                    .then(response => {
+                        if (!response.ok) throw new Error('File not found');
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.divisions) {
+                            this.divisions = data.divisions.map(div => ({
+                                ...div,
+                                teams: (div.teams || []).map(team => ({
+                                    ...team,
+                                    framesFor: team.framesFor !== undefined ? team.framesFor : (team.goalsFor || 0),
+                                    framesAgainst: team.framesAgainst !== undefined ? team.framesAgainst : (team.goalsAgainst || 0)
+                                }))
+                            }));
+                        }
+                        if (data.matches) {
+                            this.matches = data.matches;
+                        }
+                        // Also save to localStorage as backup
+                        localStorage.setItem('leagueDivisions', JSON.stringify(this.divisions));
+                        localStorage.setItem('leagueMatches', JSON.stringify(this.matches));
+                        this.render();
+                    })
+                    .catch(error => {
+                        console.log('Could not load data.json, using localStorage');
+                        this.loadDataFromLocalStorage();
+                        this.render();
+                    });
+            }
+
+            loadDataFromLocalStorage() {
+                const savedDivisions = localStorage.getItem('leagueDivisions');
+                if (savedDivisions) {
+                    const loaded = JSON.parse(savedDivisions);
+                    this.divisions = loaded.map(div => ({
+                        ...div,
+                        teams: div.teams.map(team => ({
+                            ...team,
+                            framesFor: team.framesFor !== undefined ? team.framesFor : (team.goalsFor || 0),
+                            framesAgainst: team.framesAgainst !== undefined ? team.framesAgainst : (team.goalsAgainst || 0)
+                        }))
+                    }));
+                } else {
+                    this.divisions = [{ id: 1, name: 'Division 1', teams: [] }];
+                }
+
+                const savedMatches = localStorage.getItem('leagueMatches');
+                if (savedMatches) {
+                    this.matches = JSON.parse(savedMatches);
+                }
+            }
+
+            saveData() {
+                if (this.divisions.length > 0) {
+                    localStorage.setItem('leagueDivisions', JSON.stringify(this.divisions));
+                }
+                localStorage.setItem('leagueMatches', JSON.stringify(this.matches));
+                
+                // Auto-save to GitHub if token is available
+                this.autoSaveToGitHub();
+            }
+
+            autoSaveToGitHub(retryCount = 0) {
+                // Get token from localStorage (user provides it once)
+                const token = localStorage.getItem('githubToken');
+                if (!token) {
+                    console.log('⏭️ No GitHub token found, skipping auto-save');
+                    return;
+                }
+
+                console.log('🔐 GitHub token found (length:', token.length + ')');
+
+                const dataToSave = {
+                    divisions: this.divisions,
+                    matches: this.matches,
+                    lastUpdated: new Date().toLocaleString()
+                };
+                
+                console.log('📦 Data to save:', JSON.stringify(dataToSave, null, 2));
+                const encodedData = btoa(unescape(encodeURIComponent(JSON.stringify(dataToSave, null, 2))));
+                console.log('🔒 Encoded data length:', encodedData.length);
+
+                // Get current SHA of league-data.json
+                const apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/league-data.json`;
+                console.log('🔍 Fetching from:', apiUrl);
+                
+                fetch(apiUrl, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                })
+                .then(response => {
+                    console.log('📨 Response status:', response.status);
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            console.log('📝 File does not exist yet');
+                            throw new Error('FILE_NOT_FOUND');
+                        }
+                        console.log('❌ HTTP Error:', response.status);
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('✓ File exists with SHA:', data.sha.substring(0, 8) + '...');
+                    // File exists, update it with SHA
+                    return fetch(apiUrl, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Accept': 'application/vnd.github.v3+json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: `Auto-update league data - ${new Date().toLocaleString()}`,
+                            content: encodedData,
+                            sha: data.sha,
+                            branch: GITHUB_CONFIG.branch
+                        })
+                    })
+                    .then(putResponse => {
+                        console.log('📤 PUT response status:', putResponse.status);
+                        if (putResponse.status === 409 && retryCount < 2) {
+                            // Conflict - retry after a delay
+                            console.log('⚠️ Conflict detected, retrying in 1 second...');
+                            setTimeout(() => this.autoSaveToGitHub(retryCount + 1), 1000);
+                            return;
+                        }
+                        if (!putResponse.ok) {
+                            throw new Error(`Failed to update: HTTP ${putResponse.status}`);
+                        }
+                        console.log('✅ GitHub auto-save successful!');
+                        return putResponse.json();
+                    });
+                })
+                .catch(error => {
+                    console.log('⚠️ Catch block - error:', error.message);
+                    // File doesn't exist, create it
+                    if (error.message === 'FILE_NOT_FOUND') {
+                        console.log('📝 Creating new file...');
+                        return fetch(apiUrl, {
+                            method: 'PUT',
+                            headers: {
+                                'Authorization': `token ${token}`,
+                                'Accept': 'application/vnd.github.v3+json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                message: `Create league data - ${new Date().toLocaleString()}`,
+                                content: encodedData,
+                                branch: GITHUB_CONFIG.branch
+                            })
+                        })
+                        .then(putResponse => {
+                            console.log('📤 CREATE response status:', putResponse.status);
+                            if (!putResponse.ok) {
+                                throw new Error(`Failed to create: HTTP ${putResponse.status}`);
+                            }
+                            console.log('✅ GitHub file created and saved!');
+                            return putResponse.json();
+                        });
+                    } else {
+                        console.error('❌ Error:', error.message);
+                        throw error;
+                    }
+                })
+                .catch(finalError => {
+                    console.error('❌ Final error in autoSaveToGitHub:', finalError.message);
+                });
+            }
+
+            addDivision() {
+                if (this.divisions.length >= 6) {
+                    alert('Maximum 6 divisions allowed');
+                    return;
+                }
+                this.divisions.push({ 
+                    id: Date.now(), 
+                    name: 'Division ' + (this.divisions.length + 1), 
+                    teams: [] 
+                });
+                this.saveData();
+                this.render();
+            }
+
+            deleteDivision(divId) {
+                if (this.divisions.length === 1) {
+                    alert('Cannot delete the last division');
+                    return;
+                }
+                this.divisions = this.divisions.filter(d => d.id !== divId);
+                this.matches = this.matches.filter(m => m.divisionId !== divId);
+                this.saveData();
+                this.render();
+            }
+
+            renameDivision(divId, newName) {
+                const div = this.divisions.find(d => d.id === divId);
+                if (div) {
+                    div.name = newName;
+                    this.saveData();
+                    this.render();
+                }
+            }
+
+            addTeam() {
+                if (!this.newTeamName.trim() || !this.selectedDivision) {
+                    alert('Please enter team name and select division');
+                    return;
+                }
+
+                const teamNames = this.newTeamName.split(',').map(n => n.trim()).filter(n => n.length > 0);
+                if (teamNames.length === 0) {
+                    alert('Please enter at least one team name');
+                    return;
+                }
+
+                const div = this.divisions.find(d => d.id === parseInt(this.selectedDivision));
+                if (div) {
+                    teamNames.forEach(name => {
+                        div.teams.push({
+                            id: Date.now() + Math.random(),
+                            name: name,
+                            played: 0,
+                            won: 0,
+                            drawn: 0,
+                            lost: 0,
+                            framesFor: 0,
+                            framesAgainst: 0,
+                            points: 0
+                        });
+                    });
+                }
+
+                this.newTeamName = '';
+                if (teamNames.length > 1) {
+                    alert(teamNames.length + ' players added successfully!');
+                }
+                this.saveData();
+                this.render();
+            }
+
+            deleteTeam(divId, teamId) {
+                const div = this.divisions.find(d => d.id === divId);
+                if (div) {
+                    div.teams = div.teams.filter(t => t.id !== teamId);
+                }
+                this.matches = this.matches.filter(m => m.homeTeamId !== teamId && m.awayTeamId !== teamId);
+                this.saveData();
+                this.render();
+            }
+
+            addMatch() {
+                if (!this.newMatch.division || !this.newMatch.homeTeam || !this.newMatch.awayTeam || 
+                    this.newMatch.homeScore === '' || this.newMatch.awayScore === '') {
+                    alert('Please fill in all match details');
+                    return;
+                }
+
+                const homeScore = parseInt(this.newMatch.homeScore);
+                const awayScore = parseInt(this.newMatch.awayScore);
+                if (homeScore + awayScore !== 6) {
+                    alert('Total frames must equal 6');
+                    return;
+                }
+
+                const division = this.divisions.find(d => d.id === parseInt(this.newMatch.division));
+                if (!division) return;
+
+                const homeTeam = division.teams.find(t => t.id == this.newMatch.homeTeam);
+                const awayTeam = division.teams.find(t => t.id == this.newMatch.awayTeam);
+                if (!homeTeam || !awayTeam) return;
+
+                // Check for duplicate match
+                const isDuplicate = this.matches.some(m => 
+                    m.divisionId === division.id &&
+                    ((m.homeTeamId == homeTeam.id && m.awayTeamId == awayTeam.id) ||
+                     (m.homeTeamId == awayTeam.id && m.awayTeamId == homeTeam.id))
+                );
+
+                if (isDuplicate) {
+                    alert('This match has already been recorded!');
+                    return;
+                }
+
+                const now = new Date();
+                const match = {
+                    id: Date.now(),
+                    divisionId: division.id,
+                    divisionName: division.name,
+                    homeTeamId: homeTeam.id,
+                    awayTeamId: awayTeam.id,
+                    homeTeamName: homeTeam.name,
+                    awayTeamName: awayTeam.name,
+                    homeScore: homeScore,
+                    awayScore: awayScore,
+                    date: this.newMatch.date || new Date().toISOString().split('T')[0],
+                    timeRecorded: now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+                };
+
+                this.matches.push(match);
+
+                // Update team stats
+                const won = homeScore > awayScore ? 1 : 0;
+                const drawn = homeScore === awayScore ? 1 : 0;
+                const lost = homeScore < awayScore ? 1 : 0;
+                homeTeam.played += 1;
+                homeTeam.won += won;
+                homeTeam.drawn += drawn;
+                homeTeam.lost += lost;
+                homeTeam.framesFor += homeScore;
+                homeTeam.framesAgainst += awayScore;
+                homeTeam.points += (won * 3) + drawn;
+
+                const awayWon = awayScore > homeScore ? 1 : 0;
+                const awayDrawn = awayScore === homeScore ? 1 : 0;
+                const awayLost = awayScore < homeScore ? 1 : 0;
+                awayTeam.played += 1;
+                awayTeam.won += awayWon;
+                awayTeam.drawn += awayDrawn;
+                awayTeam.lost += awayLost;
+                awayTeam.framesFor += awayScore;
+                awayTeam.framesAgainst += homeScore;
+                awayTeam.points += (awayWon * 3) + awayDrawn;
+
+                this.newMatch = { 
+                    division: this.newMatch.division, 
+                    homeTeam: '', 
+                    awayTeam: '', 
+                    homeScore: '', 
+                    awayScore: '', 
+                    date: new Date().toISOString().split('T')[0] 
+                };
+                this.saveData();
+                this.render();
+            }
+
+            deleteMatch(matchId) {
+                const match = this.matches.find(m => m.id === matchId);
+                if (!match) return;
+
+                const division = this.divisions.find(d => d.id === match.divisionId);
+                const homeTeam = division.teams.find(t => t.id == match.homeTeamId);
+                const awayTeam = division.teams.find(t => t.id == match.awayTeamId);
+
+                // Reverse team stats
+                const won = match.homeScore > match.awayScore ? 1 : 0;
+                const drawn = match.homeScore === match.awayScore ? 1 : 0;
+                const lost = match.homeScore < match.awayScore ? 1 : 0;
+                homeTeam.played -= 1;
+                homeTeam.won -= won;
+                homeTeam.drawn -= drawn;
+                homeTeam.lost -= lost;
+                homeTeam.framesFor -= match.homeScore;
+                homeTeam.framesAgainst -= match.awayScore;
+                homeTeam.points -= (won * 3) + drawn;
+
+                const awayWon = match.awayScore > match.homeScore ? 1 : 0;
+                const awayDrawn = match.awayScore === match.homeScore ? 1 : 0;
+                const awayLost = match.awayScore < match.homeScore ? 1 : 0;
+                awayTeam.played -= 1;
+                awayTeam.won -= awayWon;
+                awayTeam.drawn -= awayDrawn;
+                awayTeam.lost -= awayLost;
+                awayTeam.framesFor -= match.awayScore;
+                awayTeam.framesAgainst -= match.homeScore;
+                awayTeam.points -= (awayWon * 3) + awayDrawn;
+
+                this.matches = this.matches.filter(m => m.id !== matchId);
+                this.saveData();
+                this.render();
+            }
+
+            handleAdminLogin() {
+                const passwordInput = document.getElementById('adminPassword');
+                const enteredPassword = passwordInput ? passwordInput.value.trim() : '';
+                
+                if (enteredPassword === this.ADMIN_PASSWORD) {
+                    this.isAdminAuthenticated = true;
+                    this.adminPassword = '';
+                    if (passwordInput) passwordInput.value = '';
+                    this.render();
+                } else {
+                    alert('Incorrect password');
+                    this.adminPassword = '';
+                    if (passwordInput) {
+                        passwordInput.value = '';
+                        passwordInput.focus();
+                    }
+                }
+            }
+
+            handleAdminLogout() {
+                this.isAdminAuthenticated = false;
+                this.activeTab = 'standings';
+                this.render();
+            }
+
+            resetAllStats() {
+                this.divisions.forEach(div => {
+                    div.teams.forEach(team => {
+                        team.played = 0;
+                        team.won = 0;
+                        team.drawn = 0;
+                        team.lost = 0;
+                        team.framesFor = 0;
+                        team.framesAgainst = 0;
+                        team.points = 0;
+                    });
+                });
+                this.matches = [];
+                this.showResetConfirm = false;
+                this.saveData();
+                this.render();
+            }
+
+            factoryReset() {
+                this.divisions = [{ id: Date.now(), name: 'Division 1', teams: [] }];
+                this.matches = [];
+                this.showFactoryResetConfirm = false;
+                
+                // Save to localStorage
+                if (this.divisions.length > 0) {
+                    localStorage.setItem('leagueDivisions', JSON.stringify(this.divisions));
+                }
+                localStorage.setItem('leagueMatches', JSON.stringify(this.matches));
+                
+                // If GitHub is configured, sync the reset (with delay to avoid conflicts)
+                const token = localStorage.getItem('githubToken');
+                if (token) {
+                    console.log('📤 Factory reset - scheduling GitHub sync in 2 seconds...');
+                    setTimeout(() => {
+                        console.log('📤 Now syncing to GitHub...');
+                        this.autoSaveToGitHub();
+                    }, 2000);
+                    alert('✅ Factory reset complete!\n\nData has been cleared locally.\n\nSyncing to GitHub (2 second delay)...\n\nRefresh the page in 5 seconds to see the reset.');
+                } else {
+                    alert('✅ Factory reset complete locally!\n\nTo sync this reset to GitHub:\n1. Go back to Admin\n2. Click "Save to GitHub"\n3. Enter your token\n\nThen refresh the page.');
+                }
+                
+                this.render();
+            }
+
+            getSortedTeams(teams) {
+                return [...teams].sort((a, b) => {
+                    if (b.points !== a.points) return b.points - a.points;
+                    const aFD = (a.framesFor || 0) - (a.framesAgainst || 0);
+                    const bFD = (b.framesFor || 0) - (b.framesAgainst || 0);
+                    if (bFD !== aFD) return bFD - aFD;
+                    if ((b.framesFor || 0) !== (a.framesFor || 0)) return (b.framesFor || 0) - (a.framesFor || 0);
+                    // When all metrics are tied, sort alphabetically by player name
+                    return a.name.localeCompare(b.name);
+                });
+            }
+
+            getTeamsInDivision(divId) {
+                const division = this.divisions.find(d => d.id === parseInt(divId));
+                return division ? division.teams : [];
+            }
+
+            getFilteredDivisions() {
+                return this.filterDivision === 'all' ? this.divisions : this.divisions.filter(d => d.id === parseInt(this.filterDivision));
+            }
+
+            getFilteredMatches() {
+                return this.filterDivision === 'all' ? this.matches : this.matches.filter(m => m.divisionId === parseInt(this.filterDivision));
+            }
+
+            getDivisionColor(index) {
+                return this.divisonColors[index % this.divisonColors.length];
+            }
+
+            generateFixtures(divisionId) {
+                const division = this.divisions.find(d => d.id === divisionId);
+                if (!division || division.teams.length < 2) return [];
+
+                const teams = [...division.teams];
+                if (teams.length % 2 === 1) teams.push({ id: 'bye', name: 'BYE' });
+                const totalTeams = teams.length;
+                const rounds = totalTeams - 1;
+                const fixtures = [];
+
+                for (let round = 0; round < rounds; round++) {
+                    const matches = [];
+                    for (let i = 0; i < totalTeams / 2; i++) {
+                        const home = teams[i];
+                        const away = teams[totalTeams - 1 - i];
+                        if (home.id === 'bye' || away.id === 'bye') {
+                            matches.push({ isBye: true, home: home.id === 'bye' ? away : home, away: null });
+                        } else {
+                            matches.push({ isBye: false, home, away });
+                        }
+                    }
+                    fixtures.push({ round: round + 1, matches });
+
+                    const temp = teams[totalTeams - 1];
+                    for (let i = totalTeams - 1; i > 0; i--) {
+                        teams[i] = teams[i - 1];
+                    }
+                    teams[1] = temp;
+                }
+
+                return fixtures;
+            }
+
+            render() {
+                const app = document.getElementById('app');
+                let html = `
+                    <div class="min-h-screen bg-gray-100 py-8">
+                        <div class="max-w-6xl mx-auto print-full">
+                            <div class="bg-white rounded-lg shadow-lg mb-4 p-6">
+                                <div class="flex items-center justify-between gap-6">
+                                    <img src="https://i.ibb.co/XxFNc9Wx/Rack.png" alt="Pool Rack" class="w-20 h-20 object-contain flex-shrink-0" />
+                                    <div class="text-center flex-grow">
+                                        <h1 class="text-3xl font-bold text-gray-800">Maesdu Pool League</h1>
+                                        <p class="text-3xl text-indigo-600 font-bold">- Season 3 -</p>
+                                    </div>
+                                    <img src="https://i.ibb.co/1f7k1p2z/Maesdu.jpg" alt="Maesdu" class="w-20 h-20 object-contain rounded-lg flex-shrink-0" />
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg shadow-lg mb-4 no-print">
+                                <!-- Desktop (lg+): Tabs and contact inline -->
+                                <div class="hidden lg:flex border-b justify-between items-center">
+                                    <div class="flex overflow-x-auto">
+                                        ${['standings', 'fixtures', 'results', 'players', 'admin'].map(tab => `
+                                            <button onclick="app.activeTab='${tab}'; app.render();" class="px-6 py-4 font-semibold whitespace-nowrap ${this.activeTab === tab ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-600'}">
+                                                ${tab === 'players' ? 'Players' : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                                            </button>
+                                        `).join('')}
+                                    </div>
+                                    <div class="px-6 py-4 text-xs text-gray-500 whitespace-nowrap border-l">Created and Managed by: Gareth Peters 0787 633 7165</div>
+                                </div>
+                                
+                                <!-- Mobile & Tablet (smaller than lg): Tabs only, contact below -->
+                                <div class="lg:hidden">
+                                    <div class="border-b overflow-x-auto">
+                                        <div class="flex">
+                                            ${['standings', 'fixtures', 'results', 'players', 'admin'].map(tab => `
+                                                <button onclick="app.activeTab='${tab}'; app.render();" class="px-4 py-3 font-semibold whitespace-nowrap text-sm ${this.activeTab === tab ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-600'}">
+                                                    ${tab === 'players' ? 'Players' : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                                                </button>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Contact info below tabs on mobile/tablet -->
+                                    <div class="bg-gray-50 px-4 py-2 border-t text-xs text-gray-500">
+                                        Created and Managed by: Gareth Peters 0787 633 7165
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg shadow-lg p-6">
+                                ${this.activeTab === 'standings' ? this.renderStandings() : ''}
+                                ${this.activeTab === 'fixtures' ? this.renderFixtures() : ''}
+                                ${this.activeTab === 'results' ? this.renderResults() : ''}
+                                ${this.activeTab === 'players' ? this.renderTeams() : ''}
+                                ${this.activeTab === 'enterresult' ? this.renderEnterResult() : ''}
+                                ${this.activeTab === 'admin' ? this.renderAdmin() : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                app.innerHTML = html;
+                this.setupEventListeners();
+            }
+
+            renderStandings() {
+                let html = `
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-2xl font-bold">League Standings</h2>
+                            <select onchange="app.filterDivision = this.value; app.render();" class="px-3 py-1.5 text-sm border rounded-lg">
+                                <option value="all">All Divisions</option>
+                                ${this.divisions.map(d => `<option value="${d.id}" ${this.filterDivision === d.id.toString() ? 'selected' : ''}>${d.name}</option>`).join('')}
+                            </select>
+                        </div>
+                        ${this.getFilteredDivisions().filter(d => d.teams.length > 0).map((div, idx) => `
+                            <div class="mb-6">
+                                <h3 class="text-xl font-bold mb-3 px-4 py-2 rounded-lg ${this.getDivisionColor(idx)}">${div.name}</h3>
+                                
+                                <!-- Desktop Table View -->
+                                <div class="hidden md:block overflow-x-auto">
+                                    <table class="w-full border-collapse table-fixed">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th class="w-12 px-4 py-3 text-center text-sm font-semibold text-gray-600 border-b-2">#</th>
+                                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600 border-b-2">Player</th>
+                                                <th class="w-12 px-4 py-3 text-center text-sm font-semibold text-gray-600 border-b-2">P</th>
+                                                <th class="w-12 px-4 py-3 text-center text-sm font-semibold text-gray-600 border-b-2">W</th>
+                                                <th class="w-12 px-4 py-3 text-center text-sm font-semibold text-gray-600 border-b-2">D</th>
+                                                <th class="w-12 px-4 py-3 text-center text-sm font-semibold text-gray-600 border-b-2">L</th>
+                                                <th class="w-12 px-4 py-3 text-center text-sm font-semibold text-gray-600 border-b-2">FF</th>
+                                                <th class="w-12 px-4 py-3 text-center text-sm font-semibold text-gray-600 border-b-2">FA</th>
+                                                <th class="w-16 px-4 py-3 text-center text-sm font-semibold text-gray-600 border-b-2">FD</th>
+                                                <th class="w-16 px-4 py-3 text-center text-sm font-semibold text-gray-600 border-b-2">Pts</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${this.getSortedTeams(div.teams).map((team, i) => `
+                                                <tr class="border-b hover:bg-gray-50">
+                                                    <td class="w-12 px-4 py-3 text-center text-gray-700">${i + 1}</td>
+                                                    <td class="px-4 py-3 text-left font-semibold text-gray-800">${team.name}</td>
+                                                    <td class="w-12 px-4 py-3 text-center text-gray-700">${team.played}</td>
+                                                    <td class="w-12 px-4 py-3 text-center text-green-600 font-semibold">${team.won}</td>
+                                                    <td class="w-12 px-4 py-3 text-center text-yellow-600 font-semibold">${team.drawn}</td>
+                                                    <td class="w-12 px-4 py-3 text-center text-red-600 font-semibold">${team.lost}</td>
+                                                    <td class="w-12 px-4 py-3 text-center text-gray-700">${team.framesFor || 0}</td>
+                                                    <td class="w-12 px-4 py-3 text-center text-gray-700">${team.framesAgainst || 0}</td>
+                                                    <td class="w-16 px-4 py-3 text-center text-gray-700 font-semibold">
+                                                        ${((team.framesFor || 0) - (team.framesAgainst || 0)) > 0 ? '+' : ''}${(team.framesFor || 0) - (team.framesAgainst || 0)}
+                                                    </td>
+                                                    <td class="w-16 px-4 py-3 text-center text-indigo-600 font-bold text-lg">${team.points}</td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <!-- Mobile Card View -->
+                                <div class="md:hidden space-y-3">
+                                    ${this.getSortedTeams(div.teams).map((team, i) => `
+                                        <div class="bg-gradient-to-r from-gray-50 to-gray-100 p-4 rounded-lg border border-gray-200">
+                                            <div class="flex items-start justify-between mb-2">
+                                                <div class="flex items-start gap-3">
+                                                    <div class="text-lg font-bold text-gray-400 w-6">${i + 1}</div>
+                                                    <div>
+                                                        <div class="font-bold text-gray-900">${team.name}</div>
+                                                        <div class="text-xs text-gray-500 mt-1">Played: <span class="font-semibold text-gray-700">${team.played}</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-2xl font-bold text-indigo-600">${team.points}</div>
+                                                    <div class="text-xs text-gray-500">pts</div>
+                                                </div>
+                                            </div>
+                                            <div class="grid grid-cols-3 gap-2 text-center text-xs mt-3 pt-3 border-t border-gray-200">
+                                                <div>
+                                                    <div class="text-green-600 font-bold">${team.won}</div>
+                                                    <div class="text-gray-600 text-xs">Won</div>
+                                                </div>
+                                                <div>
+                                                    <div class="text-yellow-600 font-bold">${team.drawn}</div>
+                                                    <div class="text-gray-600 text-xs">Draw</div>
+                                                </div>
+                                                <div>
+                                                    <div class="text-red-600 font-bold">${team.lost}</div>
+                                                    <div class="text-gray-600 text-xs">Lost</div>
+                                                </div>
+                                            </div>
+                                            <div class="grid grid-cols-2 gap-2 text-center text-xs mt-2">
+                                                <div>
+                                                    <div class="text-gray-700 font-semibold">${team.framesFor || 0}</div>
+                                                    <div class="text-gray-500">For</div>
+                                                </div>
+                                                <div>
+                                                    <div class="text-gray-700 font-semibold">${team.framesAgainst || 0}</div>
+                                                    <div class="text-gray-500">Ag</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                return html;
+            }
+
+            toggleRound(divisionId, roundNum) {
+                const key = `${divisionId}-${roundNum}`;
+                this.expandedRounds[key] = !this.expandedRounds[key];
+                this.render();
+            }
+
+            renderFixtures() {
+                const isAllDivisions = this.filterDivision === 'all';
+                const filteredDivisions = this.getFilteredDivisions().filter(d => d.teams.length >= 2);
+                let html = `
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-2xl font-bold">Fixtures</h2>
+                            <select onchange="app.filterDivision = this.value; app.render();" class="px-3 py-1.5 text-sm border rounded-lg">
+                                <option value="all">All Divisions</option>
+                                ${this.divisions.map(d => `<option value="${d.id}" ${this.filterDivision === d.id.toString() ? 'selected' : ''}>${d.name}</option>`).join('')}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <h3 class="text-blue-900 font-semibold mb-2">📞 Table Reservations</h3>
+                            <p class="text-blue-800 text-sm">To book a table, phone the bar or ask staff: <a href="tel:01492876450" class="text-blue-600 hover:text-blue-800 font-bold">01492 876450 Option 3</a></p>
+                            <p class="text-blue-800 text-xs mt-2"><strong>No reservations after:</strong> Mon/Tue/Sat 7pm • Sun 5pm</p>
+                        </div>
+                        
+                        <div class="${isAllDivisions ? 'grid grid-cols-1 lg:grid-cols-2 gap-6' : ''}">
+                            ${filteredDivisions.map((div, idx) => `
+                                <div class="mb-8">
+                                    <h3 class="text-xl font-bold mb-4 px-4 py-2 rounded-lg ${this.getDivisionColor(idx)}">${div.name}</h3>
+                                    ${this.generateFixtures(div.id).map(round => {
+                                        const roundKey = `${div.id}-${round.round}`;
+                                        const isExpanded = this.expandedRounds[roundKey] !== false; // Default to expanded
+                                        return `
+                                            <div class="mb-4 border rounded-lg overflow-hidden">
+                                                <button onclick='app.toggleRound(${div.id}, ${round.round})' class="w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 font-semibold text-gray-700 flex items-center justify-between">
+                                                    <span>Round ${round.round}</span>
+                                                    <span class="text-lg">${isExpanded ? '▼' : '▶'}</span>
+                                                </button>
+                                                ${isExpanded ? `
+                                                    <div class="p-3 bg-white">
+                                                        ${round.matches.map((match, i) => `
+                                                            <div class="flex items-center justify-between p-3 border rounded-lg mb-2 bg-gray-50">
+                                                                <div class="flex items-center gap-3 flex-1 text-sm">
+                                                                    ${match.isBye ? `
+                                                                        <span class="font-semibold">${match.home.name}</span>
+                                                                        <span class="text-gray-500">BYE</span>
+                                                                    ` : `
+                                                                        <span class="font-semibold">${match.home.name}</span>
+                                                                        <span class="text-gray-400">vs</span>
+                                                                        <span class="font-semibold">${match.away.name}</span>
+                                                                    `}
+                                                                </div>
+                                                            </div>
+                                                        `).join('')}
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                return html;
+            }
+
+            renderResults() {
+                const isAllDivisions = this.filterDivision === 'all';
+                const sortedMatches = this.getFilteredMatches().sort((a, b) => {
+                    const dateA = new Date(a.date);
+                    const dateB = new Date(b.date);
+                    if (dateA.getTime() !== dateB.getTime()) {
+                        return dateB.getTime() - dateA.getTime(); // Most recent first
+                    }
+                    return b.id - a.id; // If same date, use ID
+                });
+
+                let html = `
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-2xl font-bold">Results</h2>
+                            <select onchange="app.filterDivision = this.value; app.render();" class="px-3 py-1.5 text-sm border rounded-lg">
+                                <option value="all">All Divisions</option>
+                                ${this.divisions.map(d => `<option value="${d.id}" ${this.filterDivision === d.id.toString() ? 'selected' : ''}>${d.name}</option>`).join('')}
+                            </select>
+                        </div>
+                        ${sortedMatches.length === 0 ? '<p class="text-gray-500 text-center py-8">No results yet</p>' : ''}
+                `;
+
+                if (isAllDivisions) {
+                    // Group results by division for two-column layout
+                    const resultsByDivision = {};
+                    sortedMatches.forEach(match => {
+                        if (!resultsByDivision[match.divisionId]) {
+                            resultsByDivision[match.divisionId] = [];
+                        }
+                        resultsByDivision[match.divisionId].push(match);
+                    });
+
+                    html += `<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">`;
+                    
+                    this.divisions.forEach((div, divIdx) => {
+                        if (resultsByDivision[div.id]) {
+                            html += `
+                                <div>
+                                    <h3 class="text-xl font-bold mb-4 px-4 py-2 rounded-lg ${this.getDivisionColor(divIdx)}">${div.name}</h3>
+                                    ${resultsByDivision[div.id].map(match => `
+                                        <div class="flex items-center justify-between p-3 border rounded-lg mb-2 bg-gray-50">
+                                            <div class="flex items-center gap-3 flex-1">
+                                                <div class="font-semibold">${match.homeTeamName} ${match.homeScore} - ${match.awayScore} ${match.awayTeamName}</div>
+                                                <div class="text-sm text-gray-500">${new Date(match.date).toLocaleDateString()}</div>
+                                                <div class="text-sm text-gray-500">${match.timeRecorded || 'N/A'}</div>
+                                            </div>
+                                            ${this.isAdminAuthenticated ? `<button onclick="app.deleteMatch(${match.id}); app.render();" class="p-2 text-red-600 hover:text-red-800">🗑</button>` : ''}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `;
+                        }
+                    });
+
+                    html += `</div>`;
+                } else {
+                    // Single division view - original layout
+                    html += sortedMatches.map(match => {
+                        const divIdx = this.divisions.findIndex(d => d.id === match.divisionId);
+                        return `
+                            <div class="flex items-center justify-between p-3 border rounded-lg mb-2 bg-gray-50">
+                                <div class="flex items-center gap-3 flex-1">
+                                    <div class="text-sm font-semibold px-3 py-1 rounded ${this.getDivisionColor(divIdx)}">${match.divisionName}</div>
+                                    <div class="font-semibold">${match.homeTeamName} ${match.homeScore} - ${match.awayScore} ${match.awayTeamName}</div>
+                                    <div class="text-sm text-gray-500">${new Date(match.date).toLocaleDateString()}</div>
+                                    <div class="text-sm text-gray-500">${match.timeRecorded || 'N/A'}</div>
+                                </div>
+                                ${this.isAdminAuthenticated ? `<button onclick="app.deleteMatch(${match.id}); app.render();" class="p-2 text-red-600 hover:text-red-800">🗑</button>` : ''}
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                html += `
+                    </div>
+                `;
+                return html;
+            }
+
+            renderTeams() {
+                let html = `
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-2xl font-bold">Players</h2>
+                            <select onchange="app.filterDivision = this.value; app.render();" class="px-3 py-1.5 text-sm border rounded-lg">
+                                <option value="all">All Divisions</option>
+                                ${this.divisions.map(d => `<option value="${d.id}" ${this.filterDivision === d.id.toString() ? 'selected' : ''}>${d.name}</option>`).join('')}
+                            </select>
+                        </div>
+                        ${this.getFilteredDivisions().filter(d => d.teams.length > 0).map((div, idx) => `
+                            <div class="mb-6">
+                                <h3 class="text-xl font-semibold mb-3 px-4 py-2 rounded-lg ${this.getDivisionColor(idx)}">${div.name}</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                                    ${div.teams.map(team => `
+                                        <div class="border rounded-lg p-4 bg-white hover:shadow-md transition">
+                                            <div class="font-semibold text-lg text-gray-800">${team.name}</div>
+                                            <div class="mt-3 pt-3 border-t border-gray-200">
+                                                <div class="text-sm text-gray-600">${team.phone ? `<a href="tel:${team.phone}" class="text-indigo-600 hover:text-indigo-800 font-semibold">${team.phone}</a>` : '<span class="text-gray-500">No phone</span>'}</div>
+                                                ${team.notes ? `<div class="text-sm text-gray-700 mt-2"><span class="font-medium">Notes:</span> ${team.notes}</div>` : ''}
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                return html;
+            }
+
+            renderEnterResult() {
+                if (!this.isAdminAuthenticated) {
+                    return `
+                        <div class="text-center py-12">
+                            <p class="text-gray-500 text-lg">Access restricted. Please login via Admin panel.</p>
+                            <button onclick="app.activeTab='admin'; app.render();" class="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg">Go to Admin</button>
+                        </div>
+                    `;
+                }
+
+                let html = `
+                    <div>
+                        <div class="flex justify-between mb-6">
+                            <h2 class="text-2xl font-bold">Enter Match Result</h2>
+                            <button onclick="app.activeTab='admin'; app.render();" class="px-4 py-2 bg-gray-600 text-white rounded-lg">Back</button>
+                        </div>
+                        <div class="max-w-2xl mx-auto">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Division</label>
+                                    <select id="matchDivision" onchange="app.newMatch.division = this.value; app.newMatch.homeTeam = ''; app.newMatch.awayTeam = ''; app.render();" class="w-full px-4 py-2 border rounded-lg">
+                                        <option value="">Select</option>
+                                        ${this.divisions.map(div => `<option value="${div.id}" ${this.newMatch.division == div.id ? 'selected' : ''}>${div.name}</option>`).join('')}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Date</label>
+                                    <input type="date" id="matchDate" value="${this.newMatch.date}" onchange="app.newMatch.date = this.value;" class="w-full px-4 py-2 border rounded-lg" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Home Player</label>
+                                    <select id="homeTeam" onchange="app.newMatch.homeTeam = this.value;" ${!this.newMatch.division ? 'disabled' : ''} class="w-full px-4 py-2 border rounded-lg">
+                                        <option value="">Select</option>
+                                        ${this.getTeamsInDivision(this.newMatch.division).map(team => `<option value="${team.id}" ${this.newMatch.homeTeam == team.id ? 'selected' : ''}>${team.name}</option>`).join('')}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Home Frames</label>
+                                    <input type="number" id="homeScore" min="0" max="6" value="${this.newMatch.homeScore}" onchange="app.newMatch.homeScore = this.value;" class="w-full px-4 py-2 border rounded-lg text-2xl text-center font-bold" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Away Player</label>
+                                    <select id="awayTeam" onchange="app.newMatch.awayTeam = this.value;" ${!this.newMatch.division ? 'disabled' : ''} class="w-full px-4 py-2 border rounded-lg">
+                                        <option value="">Select</option>
+                                        ${this.getTeamsInDivision(this.newMatch.division).map(team => `<option value="${team.id}" ${this.newMatch.awayTeam == team.id ? 'selected' : ''}>${team.name}</option>`).join('')}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Away Frames</label>
+                                    <input type="number" id="awayScore" min="0" max="6" value="${this.newMatch.awayScore}" onchange="app.newMatch.awayScore = this.value;" class="w-full px-4 py-2 border rounded-lg text-2xl text-center font-bold" />
+                                </div>
+                            </div>
+                            <button onclick="app.addMatch();" class="w-full px-6 py-4 bg-green-600 text-white rounded-lg font-semibold text-lg">Save Match Result</button>
+                            ${this.matches.length > 0 ? `
+                                <div class="mt-8">
+                                    <h3 class="text-xl font-semibold mb-4">Recent Results</h3>
+                                    ${this.matches.sort((a, b) => {
+                                        const dateA = new Date(a.date);
+                                        const dateB = new Date(b.date);
+                                        if (dateA.getTime() !== dateB.getTime()) {
+                                            return dateB.getTime() - dateA.getTime();
+                                        }
+                                        return b.id - a.id;
+                                    }).map(match => {
+                                        const divIdx = this.divisions.findIndex(d => d.id === match.divisionId);
+                                        return `
+                                            <div class="flex items-center justify-between p-4 border rounded-lg mb-2 bg-gray-50">
+                                                <div class="flex-1">
+                                                    <div class="text-sm font-semibold px-3 py-1 rounded inline-block mb-1 ${this.getDivisionColor(divIdx)}">${match.divisionName}</div>
+                                                    <div class="font-semibold">${match.homeTeamName} ${match.homeScore} - ${match.awayScore} ${match.awayTeamName}</div>
+                                                    <div class="text-sm text-gray-500">${new Date(match.date).toLocaleDateString()}</div>
+                                                </div>
+                                                <button onclick="app.deleteMatch(${match.id}); app.render();" class="p-2 text-red-600">🗑</button>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                return html;
+            }
+
+            renderAdmin() {
+                if (!this.isAdminAuthenticated) {
+                    const buildNumber = '031120252129';
+                    
+                    return `
+                        <div class="max-w-md mx-auto">
+                            <h2 class="text-2xl font-bold mb-4">Admin Login</h2>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-2">Password</label>
+                                <input type="password" id="adminPassword" class="w-full px-4 py-2 border rounded-lg" placeholder="Enter admin password" onkeypress="if(event.key==='Enter') app.handleAdminLogin();" />
+                            </div>
+                            <button onclick="app.handleAdminLogin();" class="w-full px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold">Login</button>
+                            <div class="mt-6 pt-4 border-t text-center text-xs text-gray-500">
+                                Build no. ${buildNumber}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                let html = `
+                    <div>
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold">Admin Panel</h2>
+                            <div class="flex gap-2">
+                                <button onclick="app.saveToGitHub();" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">💾 Save to GitHub</button>
+                                <button onclick="app.showResetConfirm = true; app.render();" class="px-4 py-2 bg-orange-600 text-white rounded-lg">Reset Stats</button>
+                                <button onclick="app.showFactoryResetConfirm = true; app.render();" class="px-4 py-2 bg-red-600 text-white rounded-lg">Factory Reset</button>
+                                <button onclick="app.handleAdminLogout();" class="px-4 py-2 bg-gray-600 text-white rounded-lg">Logout</button>
+                            </div>
+                        </div>
+
+                        ${this.showResetConfirm ? `
+                            <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                                <div class="bg-white rounded-lg p-6 max-w-md">
+                                    <h3 class="text-xl font-bold mb-4 text-orange-600">Reset All Stats?</h3>
+                                    <p class="mb-6">This will reset all team statistics but keep the teams and divisions.</p>
+                                    <div class="flex gap-3 justify-end">
+                                        <button onclick="app.showResetConfirm = false; app.render();" class="px-4 py-2 bg-gray-300 rounded-lg">Cancel</button>
+                                        <button onclick="app.resetAllStats();" class="px-4 py-2 bg-orange-600 text-white rounded-lg">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${this.showFactoryResetConfirm ? `
+                            <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                                <div class="bg-white rounded-lg p-6 max-w-md">
+                                    <h3 class="text-xl font-bold mb-4 text-red-600">Factory Reset?</h3>
+                                    <p class="mb-6"><strong>WARNING:</strong> This deletes EVERYTHING!</p>
+                                    <div class="flex gap-3 justify-end">
+                                        <button onclick="app.showFactoryResetConfirm = false; app.render();" class="px-4 py-2 bg-gray-300 rounded-lg">Cancel</button>
+                                        <button onclick="app.factoryReset();" class="px-4 py-2 bg-red-600 text-white rounded-lg">Factory Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                            <button onclick="app.activeTab='enterresult'; app.render();" class="w-full px-6 py-3 bg-green-600 text-white rounded-lg font-semibold">Enter Match Results</button>
+                        </div>
+
+                        <div class="mb-8">
+                            <div class="flex justify-between mb-4">
+                                <h3 class="text-xl font-semibold">Divisions</h3>
+                                <button onclick="app.addDivision();" class="px-4 py-2 bg-indigo-600 text-white rounded-lg ${this.divisions.length >= 6 ? 'opacity-50 cursor-not-allowed' : ''}">+ Add</button>
+                            </div>
+                            ${this.divisions.map(div => `
+                                <div class="flex items-center gap-2 p-3 border rounded-lg mb-2">
+                                    <input type="text" value="${div.name}" onchange="app.renameDivision(${div.id}, this.value); app.render();" class="flex-1 px-3 py-2 border rounded" />
+                                    <span class="text-sm text-gray-600">(${div.teams.length})</span>
+                                    <button onclick="app.deleteDivision(${div.id});" class="p-2 text-red-600 ${this.divisions.length === 1 ? 'opacity-50 cursor-not-allowed' : ''}">🗑</button>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="mb-8 border-t pt-8">
+                            <h3 class="text-xl font-semibold mb-4">Manage Players</h3>
+                            <div class="flex gap-2 mb-4">
+                                <input type="text" id="newTeamName" value="${this.newTeamName}" onchange="app.newTeamName = this.value;" placeholder="Player names (comma-separated)" class="flex-1 px-4 py-2 border rounded-lg" />
+                                <select id="selectedDivision" onchange="app.selectedDivision = this.value;" class="px-4 py-2 border rounded-lg">
+                                    <option value="">Division</option>
+                                    ${this.divisions.map(div => `<option value="${div.id}" ${this.selectedDivision == div.id ? 'selected' : ''}>${div.name}</option>`).join('')}
+                                </select>
+                                <button onclick="app.addTeam();" class="px-6 py-2 bg-indigo-600 text-white rounded-lg">+</button>
+                            </div>
+                            ${this.divisions.filter(d => d.teams.length > 0).map(div => `
+                                <div class="mb-4">
+                                    <h4 class="font-semibold mb-2">${div.name}</h4>
+                                    ${div.teams.map(team => `
+                                        <div class="flex items-center gap-2 p-3 border rounded-lg mb-2">
+                                            <input type="text" value="${team.name}" onchange="this.value = this.value; const teams = app.divisions.find(d => d.id === ${div.id}).teams; const t = teams.find(tm => tm.id == ${team.id}); if(t) t.name = this.value; app.saveData();" placeholder="Player name" class="w-45 px-3 py-2 border rounded" />
+                                            <input type="tel" value="${team.phone || ''}" onchange="const teams = app.divisions.find(d => d.id === ${div.id}).teams; const t = teams.find(tm => tm.id == ${team.id}); if(t) t.phone = this.value; app.saveData();" placeholder="Phone" class="w-40 px-3 py-2 border rounded" />
+                                            <input type="text" value="${team.notes || ''}" onchange="const teams = app.divisions.find(d => d.id === ${div.id}).teams; const t = teams.find(tm => tm.id == ${team.id}); if(t) t.notes = this.value; app.saveData();" placeholder="Notes" class="flex-1 px-3 py-2 border rounded" />
+                                            <button onclick="app.deleteTeam(${div.id}, ${team.id});" class="p-2 text-red-600">🗑</button>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                return html;
+            }
+
+            setupEventListeners() {
+                const adminPasswordInput = document.getElementById('adminPassword');
+                if (adminPasswordInput) {
+                    adminPasswordInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            this.adminPassword = adminPasswordInput.value;
+                            this.handleAdminLogin();
+                        }
+                    });
+                    adminPasswordInput.focus();
+                }
+            }
+
+            saveToGitHub() {
+                const token = prompt('Enter your GitHub Personal Access Token (Pool League App):\n\nThis will be saved for automatic updates.');
+                if (!token) return;
+
+                // Save token for auto-saving
+                localStorage.setItem('githubToken', token);
+
+                const dataToSave = {
+                    divisions: this.divisions,
+                    matches: this.matches,
+                    lastUpdated: new Date().toLocaleString()
+                };
+                
+                const encodedData = btoa(unescape(encodeURIComponent(JSON.stringify(dataToSave, null, 2))));
+
+                // First, try to get the current SHA of data.json
+                fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/league-data.json`, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // File exists, update it with SHA
+                    return fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/league-data.json`, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Accept': 'application/vnd.github.v3+json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: `Update league data - ${new Date().toLocaleString()}`,
+                            content: encodedData,
+                            sha: data.sha,
+                            branch: GITHUB_CONFIG.branch
+                        })
+                    });
+                })
+                .catch(() => {
+                    // File doesn't exist, create it without SHA
+                    return fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/league-data.json`, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Accept': 'application/vnd.github.v3+json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: `Create league data - ${new Date().toLocaleString()}`,
+                            content: encodedData,
+                            branch: GITHUB_CONFIG.branch
+                        })
+                    });
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to save');
+                    return response.json();
+                })
+                .then(data => {
+                    alert('✅ Token saved! Data will now auto-save to GitHub with each update.\n\nAll players will see updates when they refresh.');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('❌ Failed to save to GitHub\n\nError: ' + error.message + '\n\nMake sure your token is valid.');
+                });
+            }
+        }
+
+        const app = new LeagueApp();
+    </script>
+</body>
+</html>
