@@ -125,6 +125,17 @@
           "points": 0,
           "phone": "07876 337165",
           "notes": "Evenings (not Wed). Occasional afternoons"
+        },
+        {
+          "id": 1762292145941.1462,
+          "name": "extra player",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "framesFor": 0,
+          "framesAgainst": 0,
+          "points": 0
         }
       ]
     },
@@ -323,5 +334,5 @@
       "timeRecorded": "20:57"
     }
   ],
-  "lastUpdated": "04/11/2025, 21:05:00"
+  "lastUpdated": "04/11/2025, 21:35:45"
 }
