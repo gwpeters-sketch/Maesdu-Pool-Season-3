@@ -135,12 +135,12 @@
         {
           "id": 1762190229542.6006,
           "name": "Colin Young",
-          "played": 0,
+          "played": 1,
           "won": 0,
           "drawn": 0,
-          "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
+          "lost": 1,
+          "framesFor": 1,
+          "framesAgainst": 5,
           "points": 0,
           "phone": "07778 412747"
         },
@@ -244,19 +244,32 @@
         {
           "id": 1762190229542.4602,
           "name": "Robbie Hughes",
-          "played": 0,
-          "won": 0,
+          "played": 1,
+          "won": 1,
           "drawn": 0,
           "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
-          "points": 0,
+          "framesFor": 5,
+          "framesAgainst": 1,
+          "points": 3,
           "phone": "07876 535395"
         }
       ]
     }
   ],
   "matches": [
+    {
+      "id": 1762288144714,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207046.8584,
+      "awayTeamId": 1762190207046.9954,
+      "homeTeamName": "Brad Walker",
+      "awayTeamName": "Steve Pettigrew",
+      "homeScore": 3,
+      "awayScore": 3,
+      "date": "2025-11-04",
+      "timeRecorded": "20:29"
+    },
     {
       "id": 1762288124168,
       "divisionId": 1762181743063,
@@ -310,18 +323,18 @@
       "timeRecorded": "20:27"
     },
     {
-      "id": 1762288144714,
-      "divisionId": 1762181743063,
-      "divisionName": "Division 1",
-      "homeTeamId": 1762190207046.8584,
-      "awayTeamId": 1762190207046.9954,
-      "homeTeamName": "Brad Walker",
-      "awayTeamName": "Steve Pettigrew",
-      "homeScore": 3,
-      "awayScore": 3,
+      "id": 1762288157922,
+      "divisionId": 1762190200307,
+      "divisionName": "Division 2",
+      "homeTeamId": 1762190229542.6006,
+      "awayTeamId": 1762190229542.4602,
+      "homeTeamName": "Colin Young",
+      "awayTeamName": "Robbie Hughes",
+      "homeScore": 1,
+      "awayScore": 5,
       "date": "2025-11-04",
       "timeRecorded": "20:29"
     }
   ],
-  "lastUpdated": "04/11/2025, 20:29:04"
+  "lastUpdated": "04/11/2025, 20:29:17"
 }
