@@ -18,6 +18,52 @@
     <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Maesdu%20Pool%20League%22,%22short_name%22:%22Pool%20League%22,%22start_url%22:%22/%22,%22display%22:%22standalone%22,%22background_color%22:%22%23ffffff%22,%22theme_color%22:%22%234f46e5%22,%22icons%22:[{%22src%22:%22https://i.ibb.co/XxFNc9Wx/Rack.png%22,%22sizes%22:%22192x192%22,%22type%22:%22image/png%22,%22purpose%22:%22any%22},{%22src%22:%22https://i.ibb.co/XxFNc9Wx/Rack.png%22,%22sizes%22:%22512x512%22,%22type%22:%22image/png%22,%22purpose%22:%22any%22}]}">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Toggle Switch Styling */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #4f46e5;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
         /* Mobile responsive sizing */
         @media (max-width: 768px) {
             h1 { font-size: 1.5rem !important; }
@@ -810,10 +856,14 @@
                             </select>
                         </div>
                         
-                        <div class="mb-4 flex gap-2 flex-wrap">
-                            <button onclick="app.showOnlyUnplayed = !app.showOnlyUnplayed; app.render();" class="px-4 py-2 rounded-lg font-semibold transition-colors ${this.showOnlyUnplayed ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}">
-                                ${this.showOnlyUnplayed ? 'Press for All Fixtures' : 'Press for Outstanding Fixtures Only'}
-                            </button>
+                        <div class="mb-4 flex gap-4 flex-wrap items-center">
+                            <div class="flex items-center gap-2">
+                                <span class="font-semibold text-gray-700">Outstanding Matches Only</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" ${this.showOnlyUnplayed ? 'checked' : ''} onchange="app.showOnlyUnplayed = this.checked; app.render();">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
                             <select onchange="app.selectedPlayerFilter = this.value; app.render();" class="px-4 py-2 border rounded-lg font-semibold">
                                 <option value="">All Players</option>
                                 ${this.getAllTeams().map(team => `<option value="${team.id}" ${this.selectedPlayerFilter === team.id.toString() ? 'selected' : ''}>${team.name}</option>`).join('')}
