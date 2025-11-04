@@ -64,6 +64,165 @@
             transform: translateX(26px);
         }
 
+        /* Enhanced Visual Styling */
+        .tab-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: #f3f4f6;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button:hover {
+            background: #e5e7eb;
+        }
+
+        .tab-button.active {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .fixture-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .fixture-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-color: #d1d5db;
+        }
+
+        .fixture-card.completed {
+            background: #fef3c7;
+            border-color: #fcd34d;
+        }
+
+        .fixture-card.uncompleted {
+            background: #f9fafb;
+        }
+
+        .team-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .player-highlighted {
+            background: #fcd34d;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-weight: 800;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #ef4444;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 0.5rem;
+        }
+
+        .stats-bar {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.2);
+        }
+
+        .stats-item {
+            display: inline-block;
+            margin-right: 2rem;
+        }
+
+        .stats-number {
+            font-size: 1.875rem;
+            font-weight: 800;
+        }
+
+        .stats-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .floating-action-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #10b981;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+            z-index: 50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .floating-action-button:hover {
+            background: #059669;
+            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .standings-table tbody tr:nth-child(odd) {
+            background-color: #f9fafb;
+        }
+
+        .standings-table tbody tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+
+        .standings-table tbody tr:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* Mobile Toggle Enhancement */
+        @media (max-width: 768px) {
+            .toggle-switch {
+                width: 70px;
+                height: 40px;
+            }
+
+            .toggle-slider:before {
+                height: 32px;
+                width: 32px;
+            }
+
+            input:checked + .toggle-slider:before {
+                transform: translateX(30px);
+            }
+
+            .floating-action-button {
+                bottom: 1rem;
+                right: 1rem;
+                padding: 0.875rem 1.25rem;
+                font-size: 0.9rem;
+            }
+
+            .stats-item {
+                display: block;
+                margin-bottom: 1rem;
+                margin-right: 0;
+            }
+        }
+
         /* Mobile responsive sizing */
         @media (max-width: 768px) {
             h1 { font-size: 1.5rem !important; }
@@ -673,11 +832,16 @@
                                 <!-- Desktop (lg+): Tabs and contact inline -->
                                 <div class="hidden lg:flex border-b justify-between items-center">
                                     <div class="flex overflow-x-auto">
-                                        ${['standings', 'fixtures', 'results', 'players', 'admin'].map(tab => `
-                                            <button onclick="app.activeTab='${tab}'; app.render();" class="px-6 py-4 font-semibold whitespace-nowrap ${this.activeTab === tab ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-600'}">
-                                                ${tab === 'players' ? 'Players' : tab.charAt(0).toUpperCase() + tab.slice(1)}
-                                            </button>
-                                        `).join('')}
+                                        ${['standings', 'fixtures', 'results', 'players', 'admin'].map(tab => {
+                                            const icons = { 'standings': '🏆', 'fixtures': '📋', 'results': '✅', 'players': '👥', 'admin': '⚙️' };
+                                            const tabNames = { 'standings': 'Standings', 'fixtures': 'Fixtures', 'results': 'Results', 'players': 'Players', 'admin': 'Admin' };
+                                            return `
+                                                <button onclick="app.activeTab='${tab}'; app.render();" class="px-6 py-4 font-semibold whitespace-nowrap flex items-center gap-2 ${this.activeTab === tab ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-600 hover:text-gray-800'}">
+                                                    <span class="text-xl">${icons[tab]}</span>
+                                                    ${tabNames[tab]}
+                                                </button>
+                                            `;
+                                        }).join('')}
                                     </div>
                                     <div class="px-6 py-4 text-xs text-gray-500 whitespace-nowrap border-l">Created and Managed by: Gareth Peters 0787 633 7165</div>
                                 </div>
@@ -686,11 +850,16 @@
                                 <div class="lg:hidden">
                                     <div class="border-b overflow-x-auto">
                                         <div class="flex">
-                                            ${['standings', 'fixtures', 'results', 'players', 'admin'].map(tab => `
-                                                <button onclick="app.activeTab='${tab}'; app.render();" class="px-4 py-3 font-semibold whitespace-nowrap text-sm ${this.activeTab === tab ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-600'}">
-                                                    ${tab === 'players' ? 'Players' : tab.charAt(0).toUpperCase() + tab.slice(1)}
-                                                </button>
-                                            `).join('')}
+                                            ${['standings', 'fixtures', 'results', 'players', 'admin'].map(tab => {
+                                                const icons = { 'standings': '🏆', 'fixtures': '📋', 'results': '✅', 'players': '👥', 'admin': '⚙️' };
+                                                const tabNames = { 'standings': 'Standings', 'fixtures': 'Fixtures', 'results': 'Results', 'players': 'Players', 'admin': 'Admin' };
+                                                return `
+                                                    <button onclick="app.activeTab='${tab}'; app.render();" class="px-3 py-3 font-semibold whitespace-nowrap text-sm flex flex-col items-center gap-1 ${this.activeTab === tab ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-600'}">
+                                                        <span class="text-lg">${icons[tab]}</span>
+                                                        <span>${tabNames[tab]}</span>
+                                                    </button>
+                                                `;
+                                            }).join('')}
                                         </div>
                                     </div>
                                     
@@ -732,7 +901,7 @@
                                 
                                 <!-- Desktop Table View -->
                                 <div class="hidden md:block overflow-x-auto">
-                                    <table class="w-full border-collapse table-fixed">
+                                    <table class="standings-table w-full border-collapse table-fixed">
                                         <thead class="bg-gray-50">
                                             <tr>
                                                 <th class="w-12 px-4 py-3 text-center text-sm font-semibold text-gray-600 border-b-2">#</th>
@@ -846,8 +1015,31 @@
             renderFixtures() {
                 const isAllDivisions = this.filterDivision === 'all';
                 const filteredDivisions = this.getFilteredDivisions().filter(d => d.teams.length >= 2);
+                
+                // Calculate stats
+                const totalFixtures = this.getFilteredMatches().length + filteredDivisions.reduce((sum, div) => {
+                    return sum + this.generateFixtures(div.id).reduce((roundSum, round) => roundSum + round.matches.length, 0);
+                }, 0);
+                const completedFixtures = this.getFilteredMatches().length;
+                const outstandingFixtures = totalFixtures - completedFixtures;
+                
                 let html = `
                     <div>
+                        <!-- Stats Bar -->
+                        <div class="stats-bar mb-6">
+                            <div class="stats-item">
+                                <div class="stats-number">${totalFixtures}</div>
+                                <div class="stats-label">Total Fixtures</div>
+                            </div>
+                            <div class="stats-item">
+                                <div class="stats-number" style="color: #86efac;">${completedFixtures}</div>
+                                <div class="stats-label">Completed</div>
+                            </div>
+                            <div class="stats-item">
+                                <div class="stats-number" style="color: #fca5a5;">${outstandingFixtures}</div>
+                                <div class="stats-label">Outstanding</div>
+                            </div>
+                        </div>
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-2xl font-bold">Fixtures</h2>
                             <select onchange="app.filterDivision = this.value; app.render();" class="px-3 py-1.5 text-sm border rounded-lg">
@@ -925,34 +1117,43 @@
                                                         ${filteredMatches.map((match, i) => {
                                                             const result = match.isBye ? null : this.getMatchResult(div.id, match.home.id, match.away.id);
                                                             const hasResult = result !== null && result !== undefined;
-                                                            const bgColor = hasResult ? 'bg-yellow-100 border-yellow-300' : 'bg-gray-50 border-gray-200';
+                                                            const divIdx = this.divisions.findIndex(d => d.id === div.id);
+                                                            const divColor = this.getDivisionColor(divIdx).split(' ')[0].replace('bg-', '');
+                                                            
+                                                            // Check if home or away team is the selected player
+                                                            const homeIsSelected = this.selectedPlayerFilter && match.home.id.toString() === this.selectedPlayerFilter;
+                                                            const awayIsSelected = this.selectedPlayerFilter && match.away.id.toString() === this.selectedPlayerFilter;
+                                                            
                                                             return `
-                                                                <div class="flex items-center justify-between p-3 border rounded-lg mb-2 ${bgColor} transition-colors">
-                                                                    <div class="flex items-center gap-3 flex-1">
+                                                                <div class="fixture-card ${hasResult ? 'completed' : 'uncompleted'}">
+                                                                    <div class="flex items-center justify-between">
                                                                         <div class="flex-1">
                                                                             ${match.isBye ? `
-                                                                                <div class="text-sm">
-                                                                                    <span class="font-semibold">${match.home.name}</span>
-                                                                                    <span class="text-gray-500 mx-2">BYE</span>
+                                                                                <div class="flex items-center gap-2">
+                                                                                    <span class="team-name text-lg">${match.home.name}</span>
+                                                                                    <span class="text-gray-500 font-bold">BYE</span>
                                                                                 </div>
                                                             ` : `
-                                                                                <div class="text-sm">
-                                                                                    <span class="font-semibold">${match.home.name}</span>
-                                                                                    <span class="text-gray-400 mx-2">vs</span>
-                                                                                    <span class="font-semibold">${match.away.name}</span>
+                                                                                <div class="flex items-center gap-2 flex-wrap">
+                                                                                    <span class="team-name text-lg ${homeIsSelected ? 'player-highlighted' : ''}">${match.home.name}</span>
+                                                                                    <span class="text-gray-400 font-bold text-sm">vs</span>
+                                                                                    <span class="team-name text-lg ${awayIsSelected ? 'player-highlighted' : ''}">${match.away.name}</span>
+                                                                                    ${!hasResult ? '<span class="status-badge">PENDING</span>' : ''}
                                                                                 </div>
                                                                                 ${hasResult ? `
-                                                                                    <div class="text-xs text-gray-700 mt-1">
-                                                                                        <span class="font-bold text-base text-yellow-700">${result.homeScore} - ${result.awayScore}</span>
-                                                                                        <span class="text-gray-600 ml-2">${new Date(result.date).toLocaleDateString()}</span>
+                                                                                    <div class="text-sm text-gray-700 mt-2 flex items-center gap-3">
+                                                                                        <span class="text-2xl font-bold text-yellow-700">${result.homeScore} - ${result.awayScore}</span>
+                                                                                        <span class="text-gray-600">${new Date(result.date).toLocaleDateString()}</span>
                                                                                     </div>
                                                                                 ` : ''}
                                                             `}
                                                                         </div>
+                                                                        <div class="ml-3">
+                                                                            ${hasResult ? `
+                                                                                <div class="text-2xl text-yellow-600 font-bold" title="Result recorded">✓</div>
+                                                                            ` : ''}
+                                                                        </div>
                                                                     </div>
-                                                                    ${hasResult ? `
-                                                                        <div class="ml-2 text-yellow-600 font-bold text-lg" title="Result recorded">✓</div>
-                                                                    ` : ''}
                                                                 </div>
                                                             `;
                                                         }).join('')}
@@ -963,6 +1164,13 @@
                                     }).join('')}
                                 </div>
                             `).join('')}
+                        </div>
+                        
+                        <!-- Floating Action Button for Mobile -->
+                        <div class="hidden sm:block md:hidden">
+                            <button onclick="app.activeTab='enterresult'; app.render();" class="floating-action-button">
+                                ➕ Enter Result
+                            </button>
                         </div>
                     </div>
                 `;
