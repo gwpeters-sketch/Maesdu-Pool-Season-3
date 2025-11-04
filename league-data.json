@@ -171,12 +171,12 @@
         {
           "id": 1762190229542.28,
           "name": "James Salt",
-          "played": 0,
+          "played": 1,
           "won": 0,
           "drawn": 0,
-          "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
+          "lost": 1,
+          "framesFor": 2,
+          "framesAgainst": 4,
           "points": 0,
           "phone": "07734 396171"
         },
@@ -207,13 +207,13 @@
         {
           "id": 1762190229542.994,
           "name": "Barri Rawlings",
-          "played": 0,
-          "won": 0,
+          "played": 1,
+          "won": 1,
           "drawn": 0,
           "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
-          "points": 0,
+          "framesFor": 4,
+          "framesAgainst": 2,
+          "points": 3,
           "phone": "07730 279671",
           "notes": "Unavailable Mon/Wed evenings"
         },
@@ -257,6 +257,19 @@
     }
   ],
   "matches": [
+    {
+      "id": 1762288186006,
+      "divisionId": 1762190200307,
+      "divisionName": "Division 2",
+      "homeTeamId": 1762190229542.3638,
+      "awayTeamId": 1762190229542.7312,
+      "homeTeamName": "Luke Thomas",
+      "awayTeamName": "Tony Evans",
+      "homeScore": 4,
+      "awayScore": 2,
+      "date": "2025-11-04",
+      "timeRecorded": "20:29"
+    },
     {
       "id": 1762288172286,
       "divisionId": 1762190200307,
@@ -349,18 +362,18 @@
       "timeRecorded": "20:27"
     },
     {
-      "id": 1762288186006,
+      "id": 1762288199514,
       "divisionId": 1762190200307,
       "divisionName": "Division 2",
-      "homeTeamId": 1762190229542.3638,
-      "awayTeamId": 1762190229542.7312,
-      "homeTeamName": "Luke Thomas",
-      "awayTeamName": "Tony Evans",
-      "homeScore": 4,
-      "awayScore": 2,
+      "homeTeamId": 1762190229542.28,
+      "awayTeamId": 1762190229542.994,
+      "homeTeamName": "James Salt",
+      "awayTeamName": "Barri Rawlings",
+      "homeScore": 2,
+      "awayScore": 4,
       "date": "2025-11-04",
       "timeRecorded": "20:29"
     }
   ],
-  "lastUpdated": "04/11/2025, 20:29:46"
+  "lastUpdated": "04/11/2025, 20:29:59"
 }
