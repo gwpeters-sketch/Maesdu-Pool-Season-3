@@ -74,6 +74,7 @@
                 this.matches = [];
                 this.newTeamName = '';
                 this.selectedDivision = '';
+                this.showOnlyUnplayed = false; // Toggle for showing only uncompleted fixtures
                 this.newMatch = {
                     division: '',
                     homeTeam: '',
@@ -798,6 +799,12 @@
                             </select>
                         </div>
                         
+                        <div class="mb-4 flex gap-2">
+                            <button onclick="app.showOnlyUnplayed = !app.showOnlyUnplayed; app.render();" class="px-4 py-2 rounded-lg font-semibold transition-colors ${this.showOnlyUnplayed ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}">
+                                ${this.showOnlyUnplayed ? '✓ Uncompleted Only' : 'Show All Fixtures'}
+                            </button>
+                        </div>
+                        
                         <div class="mb-6 p-4 bg-yellow-50 border border-blue-200 rounded-lg">
                             <h3 class="text-blue-900 font-semibold mb-2">📞 Table Reservations</h3>
                             <p class="text-blue-800 text-sm">To book a table, ask the bar staff or phone <a href="tel:01492876450" class="text-blue-600 hover:text-blue-800 font-bold">01492 876450 Option 3</a></p>
@@ -816,6 +823,18 @@
                                     ${this.generateFixtures(div.id).map(round => {
                                         const roundKey = `${div.id}-${round.round}`;
                                         const isExpanded = this.expandedRounds[roundKey] !== false; // Default to expanded
+                                        // Filter matches if showing only unplayed
+                                        const filteredMatches = this.showOnlyUnplayed 
+                                            ? round.matches.filter(match => {
+                                                if (match.isBye) return true; // Always show byes
+                                                const result = this.getMatchResult(div.id, match.home.id, match.away.id);
+                                                return !result; // Show only if no result
+                                            })
+                                            : round.matches;
+                                        
+                                        // Hide round if no matches to display
+                                        if (filteredMatches.length === 0) return '';
+                                        
                                         return `
                                             <div class="mb-4 border rounded-lg overflow-hidden">
                                                 <button onclick='app.toggleRound(${div.id}, ${round.round})' class="w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 font-semibold text-gray-700 flex items-center justify-between">
@@ -824,7 +843,7 @@
                                                 </button>
                                                 ${isExpanded ? `
                                                     <div class="p-3 bg-white">
-                                                        ${round.matches.map((match, i) => {
+                                                        ${filteredMatches.map((match, i) => {
                                                             const result = match.isBye ? null : this.getMatchResult(div.id, match.home.id, match.away.id);
                                                             const hasResult = result !== null && result !== undefined;
                                                             const bgColor = hasResult ? 'bg-yellow-100 border-yellow-300' : 'bg-gray-50 border-gray-200';
