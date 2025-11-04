@@ -320,6 +320,13 @@
             }
 
             handleKeyPress(event) {
+                // Don't trigger if user is typing in an input field
+                const isInputField = event.target.tagName === 'INPUT' || 
+                                     event.target.tagName === 'TEXTAREA' || 
+                                     event.target.tagName === 'SELECT';
+                
+                if (isInputField) return;
+                
                 // Check for 'A' or 'a' key
                 if (event.key.toLowerCase() === 'a') {
                     const now = Date.now();
@@ -859,8 +866,7 @@
                                 <div class="flex items-center justify-between gap-6">
                                     <img src="https://i.ibb.co/XxFNc9Wx/Rack.png" alt="Pool Rack" class="w-20 h-20 object-contain flex-shrink-0" />
                                     <div class="text-center flex-grow">
-                                        <h1 class="text-3xl font-bold text-gray-800">Maesdu Pool League</h1>
-                                        <p class="text-3xl text-indigo-600 font-bold">- Season 3 -</p>
+                                        <img src="Pool-logo.png" alt="Maesdu Pool League Season 3" class="w-96 h-auto object-contain mx-auto" />
                                     </div>
                                     <img src="https://i.ibb.co/1f7k1p2z/Maesdu.jpg" alt="Maesdu" class="w-20 h-20 object-contain rounded-lg flex-shrink-0" />
                                 </div>
