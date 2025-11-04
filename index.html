@@ -266,7 +266,7 @@
         // GitHub configuration
         const GITHUB_CONFIG = {
             owner: 'gwpeters-sketch',
-            repo: 'Maesdu-Pool-Season-3',
+            repo: 'Maesdu-Pool',
             branch: 'main',
             filePath: 'index.html',
             dataFile: 'league-data.json'
@@ -277,6 +277,8 @@
                 this.activeTab = 'standings';
                 this.divisions = [];
                 this.matches = [];
+                this.juniorPlayers = []; // Junior League participants
+                this.juniorMatches = []; // Junior League matches (allows multiple matches)
                 this.newTeamName = '';
                 this.selectedDivision = '';
                 this.showOnlyUnplayed = false; // Toggle for showing only uncompleted fixtures
@@ -290,7 +292,8 @@
                     awayTeam: '',
                     homeScore: '',
                     awayScore: '',
-                    date: new Date().toISOString().split('T')[0]
+                    date: new Date().toISOString().split('T')[0],
+                    isJunior: false
                 };
                 this.isAdminAuthenticated = false;
                 this.adminPassword = '';
@@ -300,6 +303,7 @@
                 this.ADMIN_PASSWORD = 'cuffy';
                 this.divisonColors = ['bg-blue-100 text-blue-800', 'bg-green-100 text-green-800', 'bg-purple-100 text-purple-800', 'bg-orange-100 text-orange-800', 'bg-pink-100 text-pink-800', 'bg-yellow-100 text-yellow-800'];
                 this.expandedRounds = {}; // Track which rounds are expanded
+                this.newJuniorPlayerName = ''; // For adding junior league players
                 
                 this.loadData();
                 this.render();
@@ -369,9 +373,17 @@
                         if (data.matches) {
                             this.matches = data.matches;
                         }
+                        if (data.juniorPlayers) {
+                            this.juniorPlayers = data.juniorPlayers;
+                        }
+                        if (data.juniorMatches) {
+                            this.juniorMatches = data.juniorMatches;
+                        }
                         // Also save to localStorage as backup
                         localStorage.setItem('leagueDivisions', JSON.stringify(this.divisions));
                         localStorage.setItem('leagueMatches', JSON.stringify(this.matches));
+                        localStorage.setItem('juniorPlayers', JSON.stringify(this.juniorPlayers));
+                        localStorage.setItem('juniorMatches', JSON.stringify(this.juniorMatches));
                         this.render();
                     })
                     .catch(error => {
@@ -401,6 +413,16 @@
                 if (savedMatches) {
                     this.matches = JSON.parse(savedMatches);
                 }
+
+                const savedJuniorPlayers = localStorage.getItem('juniorPlayers');
+                if (savedJuniorPlayers) {
+                    this.juniorPlayers = JSON.parse(savedJuniorPlayers);
+                }
+
+                const savedJuniorMatches = localStorage.getItem('juniorMatches');
+                if (savedJuniorMatches) {
+                    this.juniorMatches = JSON.parse(savedJuniorMatches);
+                }
             }
 
             saveData() {
@@ -408,6 +430,8 @@
                     localStorage.setItem('leagueDivisions', JSON.stringify(this.divisions));
                 }
                 localStorage.setItem('leagueMatches', JSON.stringify(this.matches));
+                localStorage.setItem('juniorPlayers', JSON.stringify(this.juniorPlayers));
+                localStorage.setItem('juniorMatches', JSON.stringify(this.juniorMatches));
                 
                 // Auto-save to GitHub if token is available
                 this.autoSaveToGitHub();
@@ -426,6 +450,8 @@
                 const dataToSave = {
                     divisions: this.divisions,
                     matches: this.matches,
+                    juniorPlayers: this.juniorPlayers,
+                    juniorMatches: this.juniorMatches,
                     lastUpdated: new Date().toLocaleString()
                 };
                 
@@ -725,6 +751,161 @@
                 this.render();
             }
 
+            addJuniorPlayer() {
+                if (!this.newJuniorPlayerName.trim()) {
+                    alert('Please enter a player name');
+                    return;
+                }
+
+                const playerNames = this.newJuniorPlayerName.split(',').map(n => n.trim()).filter(n => n.length > 0);
+                if (playerNames.length === 0) {
+                    alert('Please enter at least one player name');
+                    return;
+                }
+
+                playerNames.forEach(name => {
+                    this.juniorPlayers.push({
+                        id: Date.now() + Math.random(),
+                        name: name,
+                        played: 0,
+                        won: 0,
+                        drawn: 0,
+                        lost: 0,
+                        framesFor: 0,
+                        framesAgainst: 0,
+                        points: 0
+                    });
+                });
+
+                this.newJuniorPlayerName = '';
+                this.saveData();
+                this.render();
+            }
+
+            deleteJuniorPlayer(playerId) {
+                this.juniorPlayers = this.juniorPlayers.filter(p => p.id !== playerId);
+                this.juniorMatches = this.juniorMatches.filter(m => m.homePlayerId !== playerId && m.awayPlayerId !== playerId);
+                this.saveData();
+                this.render();
+            }
+
+            addJuniorMatch() {
+                if (!this.newMatch.homeTeam || !this.newMatch.awayTeam || 
+                    this.newMatch.homeScore === '' || this.newMatch.awayScore === '') {
+                    alert('Please fill in all match details');
+                    return;
+                }
+
+                const homeScore = parseInt(this.newMatch.homeScore);
+                const awayScore = parseInt(this.newMatch.awayScore);
+                if (homeScore + awayScore !== 6) {
+                    alert('Total frames must equal 6');
+                    return;
+                }
+
+                const homePlayer = this.juniorPlayers.find(p => p.id == this.newMatch.homeTeam);
+                const awayPlayer = this.juniorPlayers.find(p => p.id == this.newMatch.awayTeam);
+                if (!homePlayer || !awayPlayer) return;
+
+                const now = new Date();
+                const match = {
+                    id: Date.now(),
+                    homePlayerId: homePlayer.id,
+                    awayPlayerId: awayPlayer.id,
+                    homePlayerName: homePlayer.name,
+                    awayPlayerName: awayPlayer.name,
+                    homeScore: homeScore,
+                    awayScore: awayScore,
+                    date: this.newMatch.date || new Date().toISOString().split('T')[0],
+                    timeRecorded: now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+                };
+
+                this.juniorMatches.push(match);
+
+                // Update player stats
+                const won = homeScore > awayScore ? 1 : 0;
+                const drawn = homeScore === awayScore ? 1 : 0;
+                const lost = homeScore < awayScore ? 1 : 0;
+                homePlayer.played += 1;
+                homePlayer.won += won;
+                homePlayer.drawn += drawn;
+                homePlayer.lost += lost;
+                homePlayer.framesFor += homeScore;
+                homePlayer.framesAgainst += awayScore;
+                homePlayer.points += (won * 3) + drawn;
+
+                const awayWon = awayScore > homeScore ? 1 : 0;
+                const awayDrawn = awayScore === homeScore ? 1 : 0;
+                const awayLost = awayScore < homeScore ? 1 : 0;
+                awayPlayer.played += 1;
+                awayPlayer.won += awayWon;
+                awayPlayer.drawn += awayDrawn;
+                awayPlayer.lost += awayLost;
+                awayPlayer.framesFor += awayScore;
+                awayPlayer.framesAgainst += homeScore;
+                awayPlayer.points += (awayWon * 3) + awayDrawn;
+
+                this.newMatch = { 
+                    division: this.newMatch.division, 
+                    homeTeam: '', 
+                    awayTeam: '', 
+                    homeScore: '', 
+                    awayScore: '', 
+                    date: new Date().toISOString().split('T')[0],
+                    isJunior: true
+                };
+                this.saveData();
+                this.render();
+            }
+
+            deleteJuniorMatch(matchId) {
+                const match = this.juniorMatches.find(m => m.id === matchId);
+                if (!match) return;
+
+                const homePlayer = this.juniorPlayers.find(p => p.id == match.homePlayerId);
+                const awayPlayer = this.juniorPlayers.find(p => p.id == match.awayPlayerId);
+
+                if (!homePlayer || !awayPlayer) return;
+
+                // Reverse player stats
+                const won = match.homeScore > match.awayScore ? 1 : 0;
+                const drawn = match.homeScore === match.awayScore ? 1 : 0;
+                const lost = match.homeScore < match.awayScore ? 1 : 0;
+                homePlayer.played -= 1;
+                homePlayer.won -= won;
+                homePlayer.drawn -= drawn;
+                homePlayer.lost -= lost;
+                homePlayer.framesFor -= match.homeScore;
+                homePlayer.framesAgainst -= match.awayScore;
+                homePlayer.points -= (won * 3) + drawn;
+
+                const awayWon = match.awayScore > match.homeScore ? 1 : 0;
+                const awayDrawn = match.awayScore === match.homeScore ? 1 : 0;
+                const awayLost = match.awayScore < match.homeScore ? 1 : 0;
+                awayPlayer.played -= 1;
+                awayPlayer.won -= awayWon;
+                awayPlayer.drawn -= awayDrawn;
+                awayPlayer.lost -= awayLost;
+                awayPlayer.framesFor -= match.awayScore;
+                awayPlayer.framesAgainst -= match.homeScore;
+                awayPlayer.points -= (awayWon * 3) + awayDrawn;
+
+                this.juniorMatches = this.juniorMatches.filter(m => m.id !== matchId);
+                this.saveData();
+                this.render();
+            }
+
+            getSortedJuniorPlayers() {
+                return [...this.juniorPlayers].sort((a, b) => {
+                    if (b.points !== a.points) return b.points - a.points;
+                    const aFD = (a.framesFor || 0) - (a.framesAgainst || 0);
+                    const bFD = (b.framesFor || 0) - (b.framesAgainst || 0);
+                    if (bFD !== aFD) return bFD - aFD;
+                    if ((b.framesFor || 0) !== (a.framesFor || 0)) return (b.framesFor || 0) - (a.framesFor || 0);
+                    return a.name.localeCompare(b.name);
+                });
+            }
+
             handleAdminLogin() {
                 const passwordInput = document.getElementById('adminPassword');
                 const enteredPassword = passwordInput ? passwordInput.value.trim() : '';
@@ -876,9 +1057,9 @@
                                 <!-- Desktop (lg+): Tabs and contact inline -->
                                 <div class="hidden lg:flex border-b justify-between items-center">
                                     <div class="flex overflow-x-auto">
-                                        ${['standings', 'fixtures', 'results', 'players', ...(this.adminUnlocked ? ['admin'] : [])].map(tab => {
-                                            const icons = { 'standings': '🏆', 'fixtures': '📋', 'results': '✅', 'players': '👥', 'admin': '⚙️' };
-                                            const tabNames = { 'standings': 'Standings', 'fixtures': 'Fixtures', 'results': 'Results', 'players': 'Players', 'admin': 'Admin' };
+                                        ${['standings', 'fixtures', 'results', 'juniorleague', 'players', ...(this.adminUnlocked ? ['admin'] : [])].map(tab => {
+                                            const icons = { 'standings': '🏆', 'fixtures': '📋', 'results': '✅', 'juniorleague': '🎯', 'players': '👥', 'admin': '⚙️' };
+                                            const tabNames = { 'standings': 'Standings', 'fixtures': 'Fixtures', 'results': 'Results', 'juniorleague': 'Juniors', 'players': 'Players', 'admin': 'Admin' };
                                             return `
                                                 <button onclick="app.activeTab='${tab}'; app.render();" class="px-6 py-4 font-semibold whitespace-nowrap flex items-center gap-2 ${this.activeTab === tab ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-600 hover:text-gray-800'}">
                                                     <span class="text-xl">${icons[tab]}</span>
@@ -894,9 +1075,9 @@
                                 <div class="lg:hidden">
                                     <div class="border-b overflow-x-auto">
                                         <div class="flex">
-                                            ${['standings', 'fixtures', 'results', 'players', ...(this.adminUnlocked ? ['admin'] : [])].map(tab => {
-                                                const icons = { 'standings': '🏆', 'fixtures': '📋', 'results': '✅', 'players': '👥', 'admin': '⚙️' };
-                                                const tabNames = { 'standings': 'Standings', 'fixtures': 'Fixtures', 'results': 'Results', 'players': 'Players', 'admin': 'Admin' };
+                                            ${['standings', 'fixtures', 'results', 'juniorleague', 'players', ...(this.adminUnlocked ? ['admin'] : [])].map(tab => {
+                                                const icons = { 'standings': '🏆', 'fixtures': '📋', 'results': '✅', 'juniorleague': '🎯', 'players': '👥', 'admin': '⚙️' };
+                                                const tabNames = { 'standings': 'Standings', 'fixtures': 'Fixtures', 'results': 'Results', 'juniorleague': 'Juniors', 'players': 'Players', 'admin': 'Admin' };
                                                 return `
                                                     <button onclick="app.activeTab='${tab}'; app.render();" class="px-3 py-3 font-semibold whitespace-nowrap text-sm flex flex-col items-center gap-1 ${this.activeTab === tab ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-600'}">
                                                         <span class="text-lg">${icons[tab]}</span>
@@ -918,6 +1099,7 @@
                                 ${this.activeTab === 'standings' ? this.renderStandings() : ''}
                                 ${this.activeTab === 'fixtures' ? this.renderFixtures() : ''}
                                 ${this.activeTab === 'results' ? this.renderResults() : ''}
+                                ${this.activeTab === 'juniorleague' ? this.renderJuniorLeague() : ''}
                                 ${this.activeTab === 'players' ? this.renderTeams() : ''}
                                 ${this.activeTab === 'enterresult' ? this.renderEnterResult() : ''}
                                 ${this.activeTab === 'admin' ? this.renderAdmin() : ''}
@@ -1310,6 +1492,128 @@
                 return html;
             }
 
+            renderJuniorLeague() {
+                let html = `
+                    <div>
+                        <div class="mb-6">
+                            <h2 class="text-3xl font-bold mb-6">🎯 Junior League</h2>
+                            
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <!-- Standings -->
+                                <div>
+                                    <h3 class="text-2xl font-bold mb-4">Standings</h3>
+                                    ${this.juniorPlayers.length === 0 ? 
+                                        '<p class="text-gray-500">No players yet. Add players in Admin panel.</p>' : 
+                                        `<div class="hidden md:block overflow-x-auto">
+                                            <table class="standings-table w-full border-collapse">
+                                                <thead class="bg-gray-50">
+                                                    <tr>
+                                                        <th class="w-12 px-4 py-3 text-center font-semibold text-gray-600 border-b-2">#</th>
+                                                        <th class="px-4 py-3 text-left font-semibold text-gray-600 border-b-2">Player</th>
+                                                        <th class="w-12 px-4 py-3 text-center font-semibold text-gray-600 border-b-2">P</th>
+                                                        <th class="w-12 px-4 py-3 text-center font-semibold text-gray-600 border-b-2">W</th>
+                                                        <th class="w-12 px-4 py-3 text-center font-semibold text-gray-600 border-b-2">D</th>
+                                                        <th class="w-12 px-4 py-3 text-center font-semibold text-gray-600 border-b-2">L</th>
+                                                        <th class="w-12 px-4 py-3 text-center font-semibold text-gray-600 border-b-2">Pts</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    ${this.getSortedJuniorPlayers().map((player, i) => `
+                                                        <tr class="border-b hover:bg-gray-50">
+                                                            <td class="w-12 px-4 py-3 text-center text-gray-700">${i + 1}</td>
+                                                            <td class="px-4 py-3 text-left font-semibold text-gray-800">${player.name}</td>
+                                                            <td class="w-12 px-4 py-3 text-center text-gray-700">${player.played}</td>
+                                                            <td class="w-12 px-4 py-3 text-center text-green-600 font-semibold">${player.won}</td>
+                                                            <td class="w-12 px-4 py-3 text-center text-yellow-600 font-semibold">${player.drawn}</td>
+                                                            <td class="w-12 px-4 py-3 text-center text-red-600 font-semibold">${player.lost}</td>
+                                                            <td class="w-12 px-4 py-3 text-center text-indigo-600 font-bold text-lg">${player.points}</td>
+                                                        </tr>
+                                                    `).join('')}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="md:hidden space-y-3">
+                                            ${this.getSortedJuniorPlayers().map((player, i) => `
+                                                <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
+                                                    <div class="flex items-start justify-between mb-2">
+                                                        <div class="flex items-start gap-3">
+                                                            <div class="text-lg font-bold text-gray-400 w-6">${i + 1}</div>
+                                                            <div>
+                                                                <div class="font-bold text-gray-900">${player.name}</div>
+                                                                <div class="text-xs text-gray-500 mt-1">W: <span class="font-semibold text-green-600">${player.won}</span> D: <span class="font-semibold text-yellow-600">${player.drawn}</span> L: <span class="font-semibold text-red-600">${player.lost}</span></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <div class="text-2xl font-bold text-indigo-600">${player.points}</div>
+                                                            <div class="text-xs text-gray-500">pts</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            `).join('')}
+                                        </div>`
+                                    }
+                                </div>
+
+                                <!-- Recent Results -->
+                                <div>
+                                    <h3 class="text-2xl font-bold mb-4">Recent Matches</h3>
+                                    ${this.juniorMatches.length === 0 ? 
+                                        '<p class="text-gray-500">No matches yet.</p>' : 
+                                        `<div class="space-y-2 max-h-96 overflow-y-auto">
+                                            ${[...this.juniorMatches].reverse().map(match => `
+                                                <div class="flex items-center justify-between p-3 border rounded-lg bg-gray-50">
+                                                    <div class="flex-1">
+                                                        <div class="font-semibold text-sm">${match.homePlayerName} <span class="font-bold text-yellow-700">${match.homeScore}</span> - <span class="font-bold text-yellow-700">${match.awayScore}</span> ${match.awayPlayerName}</div>
+                                                        <div class="text-xs text-gray-500">${new Date(match.date).toLocaleDateString()}</div>
+                                                    </div>
+                                                    ${this.isAdminAuthenticated ? `<button onclick="app.deleteJuniorMatch(${match.id}); app.render();" class="p-1 text-red-600 text-lg hover:text-red-800 ml-2">🗑</button>` : ''}
+                                                </div>
+                                            `).join('')}
+                                        </div>`
+                                    }
+                                </div>
+                            </div>
+
+                            ${this.isAdminAuthenticated ? `
+                                <div class="mt-8 border-t pt-8 bg-blue-50 p-4 rounded-lg">
+                                    <h3 class="text-xl font-bold mb-4">Admin - Add Junior League Match</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2">Home Player</label>
+                                            <select id="juniorHomePlayer" onchange="app.newMatch.homeTeam = this.value;" class="w-full px-4 py-2 border rounded-lg">
+                                                <option value="">Select</option>
+                                                ${this.juniorPlayers.map(p => `<option value="${p.id}" ${app.newMatch.homeTeam == p.id && app.newMatch.isJunior ? 'selected' : ''}>${p.name}</option>`).join('')}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2">Home Frames</label>
+                                            <input type="number" id="juniorHomeScore" min="0" max="6" value="${app.newMatch.isJunior ? app.newMatch.homeScore : ''}" onchange="app.newMatch.homeScore = this.value; app.newMatch.isJunior = true;" class="w-full px-4 py-2 border rounded-lg text-2xl text-center font-bold" />
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2">Away Player</label>
+                                            <select id="juniorAwayPlayer" onchange="app.newMatch.awayTeam = this.value;" class="w-full px-4 py-2 border rounded-lg">
+                                                <option value="">Select</option>
+                                                ${this.juniorPlayers.map(p => `<option value="${p.id}" ${app.newMatch.awayTeam == p.id && app.newMatch.isJunior ? 'selected' : ''}>${p.name}</option>`).join('')}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2">Away Frames</label>
+                                            <input type="number" id="juniorAwayScore" min="0" max="6" value="${app.newMatch.isJunior ? app.newMatch.awayScore : ''}" onchange="app.newMatch.awayScore = this.value; app.newMatch.isJunior = true;" class="w-full px-4 py-2 border rounded-lg text-2xl text-center font-bold" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Date</label>
+                                        <input type="date" value="${app.newMatch.date}" onchange="app.newMatch.date = this.value;" class="w-full px-4 py-2 border rounded-lg mb-4" />
+                                    </div>
+                                    <button onclick="app.newMatch.isJunior = true; app.addJuniorMatch();" class="w-full px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold">Save Junior Match</button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                return html;
+            }
+
             renderEnterResult() {
                 if (!this.isAdminAuthenticated) {
                     return `
@@ -1492,6 +1796,25 @@
                                     `).join('')}
                                 </div>
                             `).join('')}
+                        </div>
+
+                        <div class="mb-8 border-t pt-8">
+                            <h3 class="text-xl font-semibold mb-4">🎯 Junior League Players</h3>
+                            <div class="flex gap-2 mb-4">
+                                <input type="text" id="newJuniorPlayer" value="${this.newJuniorPlayerName}" onchange="app.newJuniorPlayerName = this.value;" placeholder="Player names (comma-separated)" class="flex-1 px-4 py-2 border rounded-lg" />
+                                <button onclick="app.addJuniorPlayer();" class="px-6 py-2 bg-purple-600 text-white rounded-lg">+</button>
+                            </div>
+                            ${this.juniorPlayers.length > 0 ? `
+                                <div class="space-y-2">
+                                    ${this.juniorPlayers.map(player => `
+                                        <div class="flex items-center gap-2 p-3 border rounded-lg bg-purple-50">
+                                            <span class="flex-1 font-semibold text-gray-800">${player.name}</span>
+                                            <span class="text-sm text-gray-600">${player.played} games</span>
+                                            <button onclick="app.deleteJuniorPlayer('${player.id}');" class="p-2 text-red-600">🗑</button>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : '<p class="text-gray-500 italic">No Junior League players yet. Add some above.</p>'}
                         </div>
                     </div>
                 `;
