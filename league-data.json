@@ -327,24 +327,24 @@
     {
       "id": 1762333029496.3657,
       "name": "James Jones",
-      "played": 2,
+      "played": 3,
       "won": 1,
       "drawn": 1,
-      "lost": 0,
-      "framesFor": 7,
-      "framesAgainst": 5,
+      "lost": 1,
+      "framesFor": 9,
+      "framesAgainst": 9,
       "points": 4
     },
     {
       "id": 1762333029496.536,
       "name": "Alfie Hammond",
-      "played": 2,
-      "won": 1,
+      "played": 3,
+      "won": 2,
       "drawn": 0,
       "lost": 1,
-      "framesFor": 6,
-      "framesAgainst": 6,
-      "points": 3
+      "framesFor": 10,
+      "framesAgainst": 8,
+      "points": 6
     },
     {
       "id": 1762333029496.0098,
@@ -391,7 +391,18 @@
       "awayScore": 4,
       "date": "2025-11-05",
       "timeRecorded": "08:58"
+    },
+    {
+      "id": 1762333115335,
+      "homePlayerId": 1762333029496.3657,
+      "awayPlayerId": 1762333029496.536,
+      "homePlayerName": "James Jones",
+      "awayPlayerName": "Alfie Hammond",
+      "homeScore": 2,
+      "awayScore": 4,
+      "date": "2025-11-05",
+      "timeRecorded": "08:58"
     }
   ],
-  "lastUpdated": "05/11/2025, 08:58:21"
+  "lastUpdated": "05/11/2025, 08:58:35"
 }
