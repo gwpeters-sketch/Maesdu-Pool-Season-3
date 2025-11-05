@@ -31,13 +31,13 @@
         {
           "id": 1762190207046.3625,
           "name": "Brian Mercer",
-          "played": 0,
+          "played": 1,
           "won": 0,
-          "drawn": 0,
+          "drawn": 1,
           "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
-          "points": 0,
+          "framesFor": 3,
+          "framesAgainst": 3,
+          "points": 1,
           "phone": "07723 352439"
         },
         {
@@ -91,13 +91,13 @@
         {
           "id": 1762190207046.3696,
           "name": "Matt Lancaster",
-          "played": 0,
+          "played": 1,
           "won": 0,
-          "drawn": 0,
+          "drawn": 1,
           "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
-          "points": 0,
+          "framesFor": 3,
+          "framesAgainst": 3,
+          "points": 1,
           "phone": "07921 539360",
           "notes": "Unavailable Tues/Thurs"
         },
@@ -269,9 +269,22 @@
       "awayScore": 5,
       "date": "2025-11-05",
       "timeRecorded": "23:26"
+    },
+    {
+      "id": 1762385185502,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207046.3625,
+      "awayTeamId": 1762190207046.3696,
+      "homeTeamName": "Brian Mercer",
+      "awayTeamName": "Matt Lancaster",
+      "homeScore": 3,
+      "awayScore": 3,
+      "date": "2025-11-05",
+      "timeRecorded": "23:26"
     }
   ],
   "juniorPlayers": [],
   "juniorMatches": [],
-  "lastUpdated": "05/11/2025, 23:26:07"
+  "lastUpdated": "05/11/2025, 23:26:25"
 }
