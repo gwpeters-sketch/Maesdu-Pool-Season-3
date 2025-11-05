@@ -327,13 +327,13 @@
     {
       "id": 1762333029496.3657,
       "name": "James Jones",
-      "played": 1,
+      "played": 2,
       "won": 1,
-      "drawn": 0,
+      "drawn": 1,
       "lost": 0,
-      "framesFor": 4,
-      "framesAgainst": 2,
-      "points": 3
+      "framesFor": 7,
+      "framesAgainst": 5,
+      "points": 4
     },
     {
       "id": 1762333029496.536,
@@ -349,13 +349,13 @@
     {
       "id": 1762333029496.0098,
       "name": "Lucas Keninson-Jones",
-      "played": 0,
+      "played": 1,
       "won": 0,
-      "drawn": 0,
+      "drawn": 1,
       "lost": 0,
-      "framesFor": 0,
-      "framesAgainst": 0,
-      "points": 0
+      "framesFor": 3,
+      "framesAgainst": 3,
+      "points": 1
     }
   ],
   "juniorMatches": [
@@ -369,7 +369,18 @@
       "awayScore": 2,
       "date": "2025-11-04",
       "timeRecorded": "08:58"
+    },
+    {
+      "id": 1762333088784,
+      "homePlayerId": 1762333029496.0098,
+      "awayPlayerId": 1762333029496.3657,
+      "homePlayerName": "Lucas Keninson-Jones",
+      "awayPlayerName": "James Jones",
+      "homeScore": 3,
+      "awayScore": 3,
+      "date": "2025-11-05",
+      "timeRecorded": "08:58"
     }
   ],
-  "lastUpdated": "05/11/2025, 08:58:00"
+  "lastUpdated": "05/11/2025, 08:58:08"
 }
