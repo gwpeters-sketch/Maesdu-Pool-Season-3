@@ -171,13 +171,13 @@
         {
           "id": 1762190229542.28,
           "name": "James Salt",
-          "played": 0,
-          "won": 0,
+          "played": 1,
+          "won": 1,
           "drawn": 0,
           "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
-          "points": 0,
+          "framesFor": 4,
+          "framesAgainst": 2,
+          "points": 3,
           "phone": "07734 396171"
         },
         {
@@ -207,12 +207,12 @@
         {
           "id": 1762190229542.994,
           "name": "Barri Rawlings",
-          "played": 0,
+          "played": 1,
           "won": 0,
           "drawn": 0,
-          "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
+          "lost": 1,
+          "framesFor": 2,
+          "framesAgainst": 4,
           "points": 0,
           "phone": "07730 279671",
           "notes": "Unavailable Mon/Wed evenings"
@@ -258,6 +258,19 @@
   ],
   "matches": [
     {
+      "id": 1762385185502,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207046.3625,
+      "awayTeamId": 1762190207046.3696,
+      "homeTeamName": "Brian Mercer",
+      "awayTeamName": "Matt Lancaster",
+      "homeScore": 3,
+      "awayScore": 3,
+      "date": "2025-11-05",
+      "timeRecorded": "23:26"
+    },
+    {
       "id": 1762385167851,
       "divisionId": 1762181743063,
       "divisionName": "Division 1",
@@ -271,20 +284,20 @@
       "timeRecorded": "23:26"
     },
     {
-      "id": 1762385185502,
-      "divisionId": 1762181743063,
-      "divisionName": "Division 1",
-      "homeTeamId": 1762190207046.3625,
-      "awayTeamId": 1762190207046.3696,
-      "homeTeamName": "Brian Mercer",
-      "awayTeamName": "Matt Lancaster",
-      "homeScore": 3,
-      "awayScore": 3,
+      "id": 1762385202817,
+      "divisionId": 1762190200307,
+      "divisionName": "Division 2",
+      "homeTeamId": 1762190229542.28,
+      "awayTeamId": 1762190229542.994,
+      "homeTeamName": "James Salt",
+      "awayTeamName": "Barri Rawlings",
+      "homeScore": 4,
+      "awayScore": 2,
       "date": "2025-11-05",
       "timeRecorded": "23:26"
     }
   ],
   "juniorPlayers": [],
   "juniorMatches": [],
-  "lastUpdated": "05/11/2025, 23:26:25"
+  "lastUpdated": "05/11/2025, 23:26:42"
 }
