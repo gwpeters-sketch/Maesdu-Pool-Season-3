@@ -338,23 +338,23 @@
     {
       "id": 1762333029496.536,
       "name": "Alfie Hammond",
-      "played": 1,
-      "won": 0,
+      "played": 2,
+      "won": 1,
       "drawn": 0,
       "lost": 1,
-      "framesFor": 2,
-      "framesAgainst": 4,
-      "points": 0
+      "framesFor": 6,
+      "framesAgainst": 6,
+      "points": 3
     },
     {
       "id": 1762333029496.0098,
       "name": "Lucas Keninson-Jones",
-      "played": 1,
+      "played": 2,
       "won": 0,
       "drawn": 1,
-      "lost": 0,
-      "framesFor": 3,
-      "framesAgainst": 3,
+      "lost": 1,
+      "framesFor": 5,
+      "framesAgainst": 7,
       "points": 1
     }
   ],
@@ -380,7 +380,18 @@
       "awayScore": 3,
       "date": "2025-11-05",
       "timeRecorded": "08:58"
+    },
+    {
+      "id": 1762333101592,
+      "homePlayerId": 1762333029496.0098,
+      "awayPlayerId": 1762333029496.536,
+      "homePlayerName": "Lucas Keninson-Jones",
+      "awayPlayerName": "Alfie Hammond",
+      "homeScore": 2,
+      "awayScore": 4,
+      "date": "2025-11-05",
+      "timeRecorded": "08:58"
     }
   ],
-  "lastUpdated": "05/11/2025, 08:58:08"
+  "lastUpdated": "05/11/2025, 08:58:21"
 }
