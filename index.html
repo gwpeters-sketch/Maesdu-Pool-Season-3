@@ -18,6 +18,30 @@
     <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Maesdu%20Pool%20League%22,%22short_name%22:%22Pool%20League%22,%22start_url%22:%22/%22,%22display%22:%22standalone%22,%22background_color%22:%22%23ffffff%22,%22theme_color%22:%22%234f46e5%22,%22icons%22:[{%22src%22:%22https://i.ibb.co/XxFNc9Wx/Rack.png%22,%22sizes%22:%22192x192%22,%22type%22:%22image/png%22,%22purpose%22:%22any%22},{%22src%22:%22https://i.ibb.co/XxFNc9Wx/Rack.png%22,%22sizes%22:%22512x512%22,%22type%22:%22image/png%22,%22purpose%22:%22any%22}]}">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Watermark Styling */
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            z-index: 9998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .watermark-text {
+            font-size: 120px;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.08);
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 20px;
+        }
+
         /* Toggle Switch Styling */
         .toggle-switch {
             position: relative;
@@ -260,6 +284,10 @@
     </style>
 </head>
 <body class="bg-gray-100">
+    <!-- Watermark -->
+    <div class="watermark">
+        <div class="watermark-text">TEST SITE</div>
+    </div>
     <div id="app"></div>
 
     <script>
