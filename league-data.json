@@ -323,5 +323,41 @@
       "timeRecorded": "20:57"
     }
   ],
-  "lastUpdated": "04/11/2025, 21:36:24"
+  "juniorPlayers": [
+    {
+      "id": 1762333029496.3657,
+      "name": "James Jones",
+      "played": 0,
+      "won": 0,
+      "drawn": 0,
+      "lost": 0,
+      "framesFor": 0,
+      "framesAgainst": 0,
+      "points": 0
+    },
+    {
+      "id": 1762333029496.536,
+      "name": "Alfie Hammond",
+      "played": 0,
+      "won": 0,
+      "drawn": 0,
+      "lost": 0,
+      "framesFor": 0,
+      "framesAgainst": 0,
+      "points": 0
+    },
+    {
+      "id": 1762333029496.0098,
+      "name": "Lucas Keninson-Jones",
+      "played": 0,
+      "won": 0,
+      "drawn": 0,
+      "lost": 0,
+      "framesFor": 0,
+      "framesAgainst": 0,
+      "points": 0
+    }
+  ],
+  "juniorMatches": [],
+  "lastUpdated": "05/11/2025, 08:57:09"
 }
