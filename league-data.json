@@ -258,6 +258,19 @@
   ],
   "matches": [
     {
+      "id": 1762541153540,
+      "divisionId": 1762190200307,
+      "divisionName": "Division 2",
+      "homeTeamId": 1762190229542.3638,
+      "awayTeamId": 1762190229542.7312,
+      "homeTeamName": "Luke Thomas",
+      "awayTeamName": "Tony Evans",
+      "homeScore": 4,
+      "awayScore": 2,
+      "date": "2025-11-07",
+      "timeRecorded": "18:45"
+    },
+    {
       "id": 1762385202817,
       "divisionId": 1762190200307,
       "divisionName": "Division 2",
@@ -295,22 +308,7 @@
       "awayScore": 5,
       "date": "2025-11-05",
       "timeRecorded": "23:26"
-    },
-    {
-      "id": 1762541153540,
-      "divisionId": 1762190200307,
-      "divisionName": "Division 2",
-      "homeTeamId": 1762190229542.3638,
-      "awayTeamId": 1762190229542.7312,
-      "homeTeamName": "Luke Thomas",
-      "awayTeamName": "Tony Evans",
-      "homeScore": 4,
-      "awayScore": 2,
-      "date": "2025-11-07",
-      "timeRecorded": "18:45"
     }
   ],
-  "juniorPlayers": [],
-  "juniorMatches": [],
-  "lastUpdated": "07/11/2025, 18:45:53"
+  "lastUpdated": "07/11/2025, 18:46:32"
 }
