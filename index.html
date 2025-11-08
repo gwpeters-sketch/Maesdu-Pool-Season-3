@@ -1227,6 +1227,53 @@
                 return false;
             }
 
+            getPlayoffPicture(divisionId) {
+                const division = this.divisions.find(d => d.id === divisionId);
+                if (!division) return null;
+
+                const sorted = this.getSortedTeams(division.teams);
+                const top4 = sorted.slice(0, 4);
+                const finalsBracket = this.finals.find(f => f.divisionId === divisionId);
+
+                return {
+                    division: division.name,
+                    teams: top4.map(team => {
+                        let status = '';
+                        let statusClass = '';
+
+                        if (finalsBracket) {
+                            // Check if in Grand Final
+                            if (finalsBracket.final.team1 && finalsBracket.final.team1.id === team.id) {
+                                status = finalsBracket.final.result ? (finalsBracket.final.team1.framesWon > finalsBracket.final.team2.framesWon ? '🏆 CHAMPION' : 'Final') : 'GF';
+                                statusClass = finalsBracket.final.result && finalsBracket.final.team1.framesWon > finalsBracket.final.team2.framesWon ? 'bg-yellow-200 text-yellow-900 font-bold' : 'bg-yellow-100 text-yellow-800';
+                            } else if (finalsBracket.final.team2 && finalsBracket.final.team2.id === team.id) {
+                                status = finalsBracket.final.result ? (finalsBracket.final.team2.framesWon > finalsBracket.final.team1.framesWon ? '🏆 CHAMPION' : 'Final') : 'GF';
+                                statusClass = finalsBracket.final.result && finalsBracket.final.team2.framesWon > finalsBracket.final.team1.framesWon ? 'bg-yellow-200 text-yellow-900 font-bold' : 'bg-yellow-100 text-yellow-800';
+                            }
+                            // Check if in Semis
+                            else if (finalsBracket.semis.some(s => s.team1.id === team.id || s.team2.id === team.id)) {
+                                const semi = finalsBracket.semis.find(s => s.team1.id === team.id || s.team2.id === team.id);
+                                const isTeam1 = semi.team1.id === team.id;
+                                status = semi.result ? 'SF ✓' : 'Semi';
+                                statusClass = semi.result ? 'bg-green-100 text-green-800 font-semibold' : 'bg-blue-100 text-blue-800';
+                            } else {
+                                status = 'Eligible';
+                                statusClass = 'bg-gray-100 text-gray-700';
+                            }
+                        } else {
+                            status = 'Eligible';
+                            statusClass = 'bg-gray-100 text-gray-700';
+                        }
+
+                        return {
+                            ...team,
+                            status,
+                            statusClass
+                        };
+                    })
+                };
+            }
+
             render() {
                 const app = document.getElementById('app');
                 let html = `
@@ -1675,6 +1722,39 @@
                                 ${this.divisions.map(d => `<option value="${d.id}" ${this.filterDivision === d.id.toString() ? 'selected' : ''}>${d.name}</option>`).join('')}
                             </select>
                         </div>
+
+                        <!-- Playoff Picture -->
+                        <div class="mb-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <h3 class="text-lg font-bold text-blue-900 mb-3">📊 Playoff Picture</h3>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                ${divisionsToShow.filter(d => d.teams.length >= 4).map(div => {
+                                    const picture = this.getPlayoffPicture(div.id);
+                                    if (!picture) return '';
+                                    
+                                    return `
+                                        <div class="bg-white rounded p-3 border border-blue-100">
+                                            <div class="text-sm font-bold text-gray-800 mb-2">${picture.division}</div>
+                                            <div class="space-y-1 text-xs">
+                                                ${picture.teams.map((team, idx) => `
+                                                    <div class="flex items-center justify-between px-2 py-1 rounded bg-gray-50">
+                                                        <div class="flex-1">
+                                                            <span class="font-semibold text-gray-800">${idx + 1}. ${team.name}</span>
+                                                            <span class="text-gray-500 ml-2">${team.points}pts</span>
+                                                        </div>
+                                                        <span class="px-2 py-0.5 rounded text-xs font-semibold ${team.statusClass}">
+                                                            ${team.status}
+                                                        </span>
+                                                    </div>
+                                                `).join('')}
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                            <div class="text-xs text-gray-600 mt-3 pt-3 border-t border-blue-200">
+                                <strong>Status:</strong> GF = Grand Final • SF ✓ = Semi-Final Complete • Semi = Semi-Final In Progress • Eligible = Could still qualify
+                            </div>
+                        </div>
                 `;
 
                 // Show existing finals for filtered divisions
@@ -1687,22 +1767,19 @@
                     const availableDivisions = divisionsToShow.filter(d => d.teams.length >= 4);
                     
                     html += `
-                        <div class="bg-blue-50 border border-blue-200 p-6 rounded-lg text-center">
-                            <p class="text-gray-600 mb-4">No finals scheduled yet for selected division(s).</p>
+                        <div class="bg-indigo-50 border border-indigo-200 p-6 rounded-lg text-center">
+                            <p class="text-gray-700 mb-4 font-semibold">Finals Not Yet Initialized</p>
                             ${this.isAdminAuthenticated && availableDivisions.length > 0 ? `
                                 <div class="flex flex-col gap-2">
-                                    <p class="text-sm text-gray-500 mb-4">Initialize finals for a division:</p>
+                                    <p class="text-sm text-gray-600 mb-3">Ready to start? Initialize finals for a division:</p>
                                     <div class="flex gap-2 flex-wrap justify-center">
                                         ${availableDivisions.map(div => `
-                                            <button onclick="app.initializeFinals(${div.id});" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
-                                                Initialize ${div.name}
+                                            <button onclick="app.initializeFinals(${div.id});" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold text-sm">
+                                                🏅 Initialize ${div.name}
                                             </button>
                                         `).join('')}
                                     </div>
                                 </div>
-                            ` : ''}
-                            ${divisionsToShow.filter(d => d.teams.length < 4).length > 0 ? `
-                                <p class="text-xs text-red-600 mt-4">* Some divisions need at least 4 teams to run finals</p>
                             ` : ''}
                         </div>
                     `;
