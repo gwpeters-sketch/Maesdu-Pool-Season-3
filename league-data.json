@@ -19,25 +19,25 @@
         {
           "id": 1762190207046.2644,
           "name": "Trevor Warwick",
-          "played": 3,
+          "played": 4,
           "won": 0,
           "drawn": 0,
-          "lost": 3,
+          "lost": 4,
           "framesFor": 4,
-          "framesAgainst": 14,
+          "framesAgainst": 20,
           "points": 0,
           "phone": "07862 719066"
         },
         {
           "id": 1762190207046.3625,
           "name": "Brian Mercer",
-          "played": 3,
-          "won": 2,
+          "played": 4,
+          "won": 3,
           "drawn": 1,
           "lost": 0,
-          "framesFor": 14,
+          "framesFor": 20,
           "framesAgainst": 4,
-          "points": 7,
+          "points": 10,
           "phone": "07723 352439"
         },
         {
@@ -257,6 +257,19 @@
     }
   ],
   "matches": [
+    {
+      "id": 1762646174025,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207046.637,
+      "awayTeamId": 1762190207046.4993,
+      "homeTeamName": "Gareth Peters",
+      "awayTeamName": "Steve Hughes",
+      "homeScore": 3,
+      "awayScore": 3,
+      "date": "2025-11-08",
+      "timeRecorded": "23:56"
+    },
     {
       "id": 1762646162829,
       "divisionId": 1762181743063,
@@ -531,15 +544,15 @@
       "timeRecorded": "23:26"
     },
     {
-      "id": 1762646174025,
+      "id": 1762646188781,
       "divisionId": 1762181743063,
       "divisionName": "Division 1",
-      "homeTeamId": 1762190207046.637,
-      "awayTeamId": 1762190207046.4993,
-      "homeTeamName": "Gareth Peters",
-      "awayTeamName": "Steve Hughes",
-      "homeScore": 3,
-      "awayScore": 3,
+      "homeTeamId": 1762190207046.2644,
+      "awayTeamId": 1762190207046.3625,
+      "homeTeamName": "Trevor Warwick",
+      "awayTeamName": "Brian Mercer",
+      "homeScore": 0,
+      "awayScore": 6,
       "date": "2025-11-08",
       "timeRecorded": "23:56"
     }
@@ -547,5 +560,5 @@
   "juniorPlayers": [],
   "juniorMatches": [],
   "finals": [],
-  "lastUpdated": "08/11/2025, 23:56:14"
+  "lastUpdated": "08/11/2025, 23:56:28"
 }
