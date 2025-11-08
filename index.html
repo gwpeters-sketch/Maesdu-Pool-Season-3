@@ -1251,8 +1251,8 @@
             getMatchResult(divisionId, homeTeamId, awayTeamId) {
                 return this.matches.find(m => 
                     m.divisionId === divisionId && 
-                    m.homeTeamId === homeTeamId && 
-                    m.awayTeamId === awayTeamId
+                    ((m.homeTeamId === homeTeamId && m.awayTeamId === awayTeamId) ||
+                     (m.homeTeamId === awayTeamId && m.awayTeamId === homeTeamId))
                 );
             }
 
