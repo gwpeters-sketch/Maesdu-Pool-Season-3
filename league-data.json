@@ -376,14 +376,18 @@
         "team1": {
           "id": 1762190207046.7803,
           "name": "Colin Jones",
-          "framesWon": 0
+          "framesWon": 2
         },
         "team2": {
           "id": 1762190207046.3625,
           "name": "Brian Mercer",
-          "framesWon": 0
+          "framesWon": 4
         },
-        "result": null
+        "result": {
+          "team1Score": 2,
+          "team2Score": 4,
+          "date": "2025-11-08T22:32:10.308Z"
+        }
       }
     },
     {
@@ -431,5 +435,5 @@
       }
     }
   ],
-  "lastUpdated": "08/11/2025, 22:31:57"
+  "lastUpdated": "08/11/2025, 22:32:10"
 }
