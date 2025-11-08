@@ -389,71 +389,7 @@
           "date": "2025-11-08T22:32:10.308Z"
         }
       }
-    },
-    {
-      "id": 1762640993122,
-      "divisionId": 1762190200307,
-      "divisionName": "Division 2",
-      "semis": [
-        {
-          "id": 1762640993123,
-          "name": "Semi 1: James Salt v Robbie Hughes",
-          "team1": {
-            "id": 1762190229542.28,
-            "name": "James Salt",
-            "framesWon": 2
-          },
-          "team2": {
-            "id": 1762190229542.4602,
-            "name": "Robbie Hughes",
-            "framesWon": 3
-          },
-          "result": {
-            "team1Score": 2,
-            "team2Score": 3,
-            "date": "2025-11-08T22:32:27.936Z"
-          }
-        },
-        {
-          "id": 1762640993124,
-          "name": "Semi 2: Luke Thomas v Colin Young",
-          "team1": {
-            "id": 1762190229542.3638,
-            "name": "Luke Thomas",
-            "framesWon": 3
-          },
-          "team2": {
-            "id": 1762190229542.6006,
-            "name": "Colin Young",
-            "framesWon": 1
-          },
-          "result": {
-            "team1Score": 3,
-            "team2Score": 1,
-            "date": "2025-11-08T22:32:39.588Z"
-          }
-        }
-      ],
-      "final": {
-        "id": 1762640993125,
-        "name": "Grand Final",
-        "team1": {
-          "id": 1762190229542.4602,
-          "name": "Robbie Hughes",
-          "framesWon": 3
-        },
-        "team2": {
-          "id": 1762190229542.3638,
-          "name": "Luke Thomas",
-          "framesWon": 4
-        },
-        "result": {
-          "team1Score": 3,
-          "team2Score": 4,
-          "date": "2025-11-08T22:32:52.327Z"
-        }
-      }
     }
   ],
-  "lastUpdated": "08/11/2025, 22:33:09"
+  "lastUpdated": "08/11/2025, 22:44:35"
 }
