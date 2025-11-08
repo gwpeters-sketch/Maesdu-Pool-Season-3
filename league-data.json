@@ -401,14 +401,18 @@
           "team1": {
             "id": 1762190229542.28,
             "name": "James Salt",
-            "framesWon": 0
+            "framesWon": 2
           },
           "team2": {
             "id": 1762190229542.4602,
             "name": "Robbie Hughes",
-            "framesWon": 0
+            "framesWon": 3
           },
-          "result": null
+          "result": {
+            "team1Score": 2,
+            "team2Score": 3,
+            "date": "2025-11-08T22:32:27.936Z"
+          }
         },
         {
           "id": 1762640993124,
@@ -429,11 +433,15 @@
       "final": {
         "id": 1762640993125,
         "name": "Grand Final",
-        "team1": null,
+        "team1": {
+          "id": 1762190229542.4602,
+          "name": "Robbie Hughes",
+          "framesWon": 0
+        },
         "team2": null,
         "result": null
       }
     }
   ],
-  "lastUpdated": "08/11/2025, 22:32:10"
+  "lastUpdated": "08/11/2025, 22:32:27"
 }
