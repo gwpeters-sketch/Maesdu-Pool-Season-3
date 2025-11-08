@@ -91,13 +91,13 @@
         {
           "id": 1762190207046.3696,
           "name": "Matt Lancaster",
-          "played": 1,
+          "played": 2,
           "won": 0,
-          "drawn": 1,
+          "drawn": 2,
           "lost": 0,
-          "framesFor": 3,
-          "framesAgainst": 3,
-          "points": 1,
+          "framesFor": 6,
+          "framesAgainst": 6,
+          "points": 2,
           "phone": "07921 539360",
           "notes": "Unavailable Tues/Thurs"
         },
@@ -116,13 +116,13 @@
         {
           "id": 1762190207046.637,
           "name": "Gareth Peters",
-          "played": 1,
+          "played": 2,
           "won": 0,
-          "drawn": 0,
+          "drawn": 1,
           "lost": 1,
-          "framesFor": 2,
-          "framesAgainst": 4,
-          "points": 0,
+          "framesFor": 5,
+          "framesAgainst": 7,
+          "points": 1,
           "phone": "07876 337165",
           "notes": "Evenings (not Wed). Occasional afternoons"
         }
@@ -258,6 +258,19 @@
   ],
   "matches": [
     {
+      "id": 1762645863683,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207045.826,
+      "awayTeamId": 1762190207046.7803,
+      "homeTeamName": "John Bowen",
+      "awayTeamName": "Colin Jones",
+      "homeScore": 4,
+      "awayScore": 2,
+      "date": "2025-11-08",
+      "timeRecorded": "23:51"
+    },
+    {
       "id": 1762645611218,
       "divisionId": 1762181743063,
       "divisionName": "Division 1",
@@ -362,15 +375,15 @@
       "timeRecorded": "23:26"
     },
     {
-      "id": 1762645863683,
+      "id": 1762645879335,
       "divisionId": 1762181743063,
       "divisionName": "Division 1",
-      "homeTeamId": 1762190207045.826,
-      "awayTeamId": 1762190207046.7803,
-      "homeTeamName": "John Bowen",
-      "awayTeamName": "Colin Jones",
-      "homeScore": 4,
-      "awayScore": 2,
+      "homeTeamId": 1762190207046.637,
+      "awayTeamId": 1762190207046.3696,
+      "homeTeamName": "Gareth Peters",
+      "awayTeamName": "Matt Lancaster",
+      "homeScore": 3,
+      "awayScore": 3,
       "date": "2025-11-08",
       "timeRecorded": "23:51"
     }
@@ -378,5 +391,5 @@
   "juniorPlayers": [],
   "juniorMatches": [],
   "finals": [],
-  "lastUpdated": "08/11/2025, 23:51:03"
+  "lastUpdated": "08/11/2025, 23:51:19"
 }
