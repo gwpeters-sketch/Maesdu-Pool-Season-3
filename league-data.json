@@ -325,6 +325,51 @@
   ],
   "juniorPlayers": [],
   "juniorMatches": [],
-  "finals": [],
-  "lastUpdated": "08/11/2025, 22:22:50"
+  "finals": [
+    {
+      "id": 1762640571496,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "semis": [
+        {
+          "id": 1762640571497,
+          "name": "Semi 1: Colin Jones v Brad Walker",
+          "team1": {
+            "id": 1762190207046.7803,
+            "name": "Colin Jones",
+            "framesWon": 0
+          },
+          "team2": {
+            "id": 1762190207046.8584,
+            "name": "Brad Walker",
+            "framesWon": 0
+          },
+          "result": null
+        },
+        {
+          "id": 1762640571498,
+          "name": "Semi 2: Brian Mercer v Matt Lancaster",
+          "team1": {
+            "id": 1762190207046.3625,
+            "name": "Brian Mercer",
+            "framesWon": 0
+          },
+          "team2": {
+            "id": 1762190207046.3696,
+            "name": "Matt Lancaster",
+            "framesWon": 0
+          },
+          "result": null
+        }
+      ],
+      "final": {
+        "id": 1762640571499,
+        "name": "Grand Final",
+        "team1": null,
+        "team2": null,
+        "result": null
+      }
+    }
+  ],
+  "lastUpdated": "08/11/2025, 22:22:51"
 }
