@@ -135,13 +135,13 @@
         {
           "id": 1762190229542.6006,
           "name": "Colin Young",
-          "played": 0,
+          "played": 1,
           "won": 0,
-          "drawn": 0,
+          "drawn": 1,
           "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
-          "points": 0,
+          "framesFor": 3,
+          "framesAgainst": 3,
+          "points": 1,
           "phone": "07778 412747"
         },
         {
@@ -244,13 +244,13 @@
         {
           "id": 1762190229542.4602,
           "name": "Robbie Hughes",
-          "played": 0,
+          "played": 1,
           "won": 0,
-          "drawn": 0,
+          "drawn": 1,
           "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
-          "points": 0,
+          "framesFor": 3,
+          "framesAgainst": 3,
+          "points": 1,
           "phone": "07876 535395"
         }
       ]
@@ -308,9 +308,22 @@
       "awayScore": 5,
       "date": "2025-11-05",
       "timeRecorded": "23:26"
+    },
+    {
+      "id": 1762630971887,
+      "divisionId": 1762190200307,
+      "divisionName": "Division 2",
+      "homeTeamId": 1762190229542.6006,
+      "awayTeamId": 1762190229542.4602,
+      "homeTeamName": "Colin Young",
+      "awayTeamName": "Robbie Hughes",
+      "homeScore": 3,
+      "awayScore": 3,
+      "date": "2025-11-08",
+      "timeRecorded": "19:42"
     }
   ],
   "juniorPlayers": [],
   "juniorMatches": [],
-  "lastUpdated": "08/11/2025, 19:42:39"
+  "lastUpdated": "08/11/2025, 19:42:51"
 }
