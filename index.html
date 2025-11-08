@@ -1233,42 +1233,59 @@
 
                 const sorted = this.getSortedTeams(division.teams);
                 const top4 = sorted.slice(0, 4);
+                const top4Points = top4[3]?.points || 0; // 4th place points
                 const finalsBracket = this.finals.find(f => f.divisionId === divisionId);
 
                 return {
                     division: division.name,
-                    teams: top4.map(team => {
+                    teams: sorted.map((team, idx) => {
                         let status = '';
                         let statusClass = '';
 
-                        if (finalsBracket) {
-                            // Check if in Grand Final
-                            if (finalsBracket.final.team1 && finalsBracket.final.team1.id === team.id) {
-                                status = finalsBracket.final.result ? (finalsBracket.final.team1.framesWon > finalsBracket.final.team2.framesWon ? '🏆 CHAMPION' : 'Final') : 'GF';
-                                statusClass = finalsBracket.final.result && finalsBracket.final.team1.framesWon > finalsBracket.final.team2.framesWon ? 'bg-yellow-200 text-yellow-900 font-bold' : 'bg-yellow-100 text-yellow-800';
-                            } else if (finalsBracket.final.team2 && finalsBracket.final.team2.id === team.id) {
-                                status = finalsBracket.final.result ? (finalsBracket.final.team2.framesWon > finalsBracket.final.team1.framesWon ? '🏆 CHAMPION' : 'Final') : 'GF';
-                                statusClass = finalsBracket.final.result && finalsBracket.final.team2.framesWon > finalsBracket.final.team1.framesWon ? 'bg-yellow-200 text-yellow-900 font-bold' : 'bg-yellow-100 text-yellow-800';
-                            }
-                            // Check if in Semis
-                            else if (finalsBracket.semis.some(s => s.team1.id === team.id || s.team2.id === team.id)) {
-                                const semi = finalsBracket.semis.find(s => s.team1.id === team.id || s.team2.id === team.id);
-                                const isTeam1 = semi.team1.id === team.id;
-                                status = semi.result ? 'SF ✓' : 'Semi';
-                                statusClass = semi.result ? 'bg-green-100 text-green-800 font-semibold' : 'bg-blue-100 text-blue-800';
+                        if (idx < 4) {
+                            // Top 4 - show playoff status
+                            if (finalsBracket) {
+                                // Check if in Grand Final
+                                if (finalsBracket.final.team1 && finalsBracket.final.team1.id === team.id) {
+                                    status = finalsBracket.final.result ? (finalsBracket.final.team1.framesWon > finalsBracket.final.team2.framesWon ? '🏆 CHAMPION' : 'GF') : 'GF';
+                                    statusClass = finalsBracket.final.result && finalsBracket.final.team1.framesWon > finalsBracket.final.team2.framesWon ? 'bg-yellow-200 text-yellow-900 font-bold' : 'bg-yellow-100 text-yellow-800';
+                                } else if (finalsBracket.final.team2 && finalsBracket.final.team2.id === team.id) {
+                                    status = finalsBracket.final.result ? (finalsBracket.final.team2.framesWon > finalsBracket.final.team1.framesWon ? '🏆 CHAMPION' : 'GF') : 'GF';
+                                    statusClass = finalsBracket.final.result && finalsBracket.final.team2.framesWon > finalsBracket.final.team1.framesWon ? 'bg-yellow-200 text-yellow-900 font-bold' : 'bg-yellow-100 text-yellow-800';
+                                }
+                                // Check if in Semis
+                                else if (finalsBracket.semis.some(s => s.team1.id === team.id || s.team2.id === team.id)) {
+                                    const semi = finalsBracket.semis.find(s => s.team1.id === team.id || s.team2.id === team.id);
+                                    status = semi.result ? 'SF ✓' : 'Semi';
+                                    statusClass = semi.result ? 'bg-green-100 text-green-800 font-semibold' : 'bg-blue-100 text-blue-800';
+                                } else {
+                                    status = 'Eligible';
+                                    statusClass = 'bg-indigo-100 text-indigo-800 font-semibold';
+                                }
                             } else {
-                                status = 'Eligible';
-                                statusClass = 'bg-gray-100 text-gray-700';
+                                status = 'Qualified';
+                                statusClass = 'bg-indigo-100 text-indigo-800 font-semibold';
                             }
                         } else {
-                            status = 'Eligible';
-                            statusClass = 'bg-gray-100 text-gray-700';
+                            // Teams 5+ - show contention
+                            const pointsGap = top4Points - team.points;
+                            if (pointsGap <= 3) {
+                                status = `${pointsGap} back`;
+                                statusClass = 'bg-orange-100 text-orange-800 font-semibold';
+                            } else if (pointsGap <= 6) {
+                                status = `${pointsGap} back`;
+                                statusClass = 'bg-orange-50 text-orange-700';
+                            } else {
+                                status = `${pointsGap} back`;
+                                statusClass = 'bg-gray-100 text-gray-600';
+                            }
                         }
 
                         return {
                             ...team,
                             status,
-                            statusClass
+                            statusClass,
+                            position: idx + 1
                         };
                     })
                 };
