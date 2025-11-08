@@ -356,14 +356,18 @@
           "team1": {
             "id": 1762190207046.3625,
             "name": "Brian Mercer",
-            "framesWon": 0
+            "framesWon": 3
           },
           "team2": {
             "id": 1762190207046.3696,
             "name": "Matt Lancaster",
-            "framesWon": 0
+            "framesWon": 2
           },
-          "result": null
+          "result": {
+            "team1Score": 3,
+            "team2Score": 2,
+            "date": "2025-11-08T22:31:57.636Z"
+          }
         }
       ],
       "final": {
@@ -374,7 +378,11 @@
           "name": "Colin Jones",
           "framesWon": 0
         },
-        "team2": null,
+        "team2": {
+          "id": 1762190207046.3625,
+          "name": "Brian Mercer",
+          "framesWon": 0
+        },
         "result": null
       }
     },
@@ -423,5 +431,5 @@
       }
     }
   ],
-  "lastUpdated": "08/11/2025, 22:31:47"
+  "lastUpdated": "08/11/2025, 22:31:57"
 }
