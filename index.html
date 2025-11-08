@@ -1243,41 +1243,55 @@
                         let statusClass = '';
 
                         if (idx < 4) {
-                            // Top 4 - show playoff status
+                            // In top 4
                             if (finalsBracket) {
-                                // Check if in Grand Final
-                                if (finalsBracket.final.team1 && finalsBracket.final.team1.id === team.id) {
-                                    status = finalsBracket.final.result ? (finalsBracket.final.team1.framesWon > finalsBracket.final.team2.framesWon ? '🏆 CHAMPION' : 'GF') : 'GF';
-                                    statusClass = finalsBracket.final.result && finalsBracket.final.team1.framesWon > finalsBracket.final.team2.framesWon ? 'bg-yellow-200 text-yellow-900 font-bold' : 'bg-yellow-100 text-yellow-800';
-                                } else if (finalsBracket.final.team2 && finalsBracket.final.team2.id === team.id) {
-                                    status = finalsBracket.final.result ? (finalsBracket.final.team2.framesWon > finalsBracket.final.team1.framesWon ? '🏆 CHAMPION' : 'GF') : 'GF';
-                                    statusClass = finalsBracket.final.result && finalsBracket.final.team2.framesWon > finalsBracket.final.team1.framesWon ? 'bg-yellow-200 text-yellow-900 font-bold' : 'bg-yellow-100 text-yellow-800';
-                                }
-                                // Check if in Semis
-                                else if (finalsBracket.semis.some(s => s.team1.id === team.id || s.team2.id === team.id)) {
-                                    const semi = finalsBracket.semis.find(s => s.team1.id === team.id || s.team2.id === team.id);
-                                    status = semi.result ? 'SF ✓' : 'Semi';
-                                    statusClass = semi.result ? 'bg-green-100 text-green-800 font-semibold' : 'bg-blue-100 text-blue-800';
+                                // Finals initialized - check if they're in the bracket
+                                const inFinals = finalsBracket.semis.some(s => s.team1.id === team.id || s.team2.id === team.id) ||
+                                                (finalsBracket.final.team1?.id === team.id || finalsBracket.final.team2?.id === team.id);
+                                
+                                if (inFinals) {
+                                    // Check playoff progress
+                                    if (finalsBracket.final.team1 && finalsBracket.final.team1.id === team.id) {
+                                        status = finalsBracket.final.result ? (finalsBracket.final.team1.framesWon > finalsBracket.final.team2.framesWon ? '🏆 CHAMPION' : 'GF') : 'GF';
+                                        statusClass = finalsBracket.final.result && finalsBracket.final.team1.framesWon > finalsBracket.final.team2.framesWon ? 'bg-yellow-200 text-yellow-900 font-bold' : 'bg-yellow-100 text-yellow-800';
+                                    } else if (finalsBracket.final.team2 && finalsBracket.final.team2.id === team.id) {
+                                        status = finalsBracket.final.result ? (finalsBracket.final.team2.framesWon > finalsBracket.final.team1.framesWon ? '🏆 CHAMPION' : 'GF') : 'GF';
+                                        statusClass = finalsBracket.final.result && finalsBracket.final.team2.framesWon > finalsBracket.final.team1.framesWon ? 'bg-yellow-200 text-yellow-900 font-bold' : 'bg-yellow-100 text-yellow-800';
+                                    } else if (finalsBracket.semis.some(s => s.team1.id === team.id || s.team2.id === team.id)) {
+                                        const semi = finalsBracket.semis.find(s => s.team1.id === team.id || s.team2.id === team.id);
+                                        status = semi.result ? 'SF ✓' : 'Semi';
+                                        statusClass = semi.result ? 'bg-green-100 text-green-800 font-semibold' : 'bg-blue-100 text-blue-800';
+                                    }
                                 } else {
-                                    status = 'Eligible';
-                                    statusClass = 'bg-indigo-100 text-indigo-800 font-semibold';
+                                    // Top 4 but not selected for finals (shouldn't happen)
+                                    status = 'QUALIFIED';
+                                    statusClass = 'bg-indigo-200 text-indigo-900 font-bold';
                                 }
                             } else {
-                                status = 'Qualified';
+                                // Finals not initialized yet - show they hold a position
+                                status = 'In Playoff Position';
                                 statusClass = 'bg-indigo-100 text-indigo-800 font-semibold';
                             }
                         } else {
-                            // Teams 5+ - show contention
-                            const pointsGap = top4Points - team.points;
-                            if (pointsGap <= 3) {
-                                status = `${pointsGap} back`;
-                                statusClass = 'bg-orange-100 text-orange-800 font-semibold';
-                            } else if (pointsGap <= 6) {
-                                status = `${pointsGap} back`;
-                                statusClass = 'bg-orange-50 text-orange-700';
+                            // Teams 5+ - eliminated or still in hunt
+                            if (finalsBracket) {
+                                // Finals have been initialized - these teams are eliminated
+                                const pointsGap = top4Points - team.points;
+                                status = 'Eliminated';
+                                statusClass = 'bg-red-100 text-red-700 font-semibold';
                             } else {
-                                status = `${pointsGap} back`;
-                                statusClass = 'bg-gray-100 text-gray-600';
+                                // Finals not initialized - still in the hunt
+                                const pointsGap = top4Points - team.points;
+                                if (pointsGap <= 3) {
+                                    status = `In the hunt (${pointsGap}▼)`;
+                                    statusClass = 'bg-orange-100 text-orange-800 font-semibold';
+                                } else if (pointsGap <= 6) {
+                                    status = `In the hunt (${pointsGap}▼)`;
+                                    statusClass = 'bg-orange-50 text-orange-700';
+                                } else {
+                                    status = `${pointsGap}▼`;
+                                    statusClass = 'bg-gray-100 text-gray-600';
+                                }
                             }
                         }
 
