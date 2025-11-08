@@ -337,14 +337,18 @@
           "team1": {
             "id": 1762190207046.7803,
             "name": "Colin Jones",
-            "framesWon": 0
+            "framesWon": 3
           },
           "team2": {
             "id": 1762190207046.8584,
             "name": "Brad Walker",
-            "framesWon": 0
+            "framesWon": 1
           },
-          "result": null
+          "result": {
+            "team1Score": 3,
+            "team2Score": 1,
+            "date": "2025-11-08T22:19:42.405Z"
+          }
         },
         {
           "id": 1762640308423,
@@ -365,11 +369,15 @@
       "final": {
         "id": 1762640308424,
         "name": "Grand Final",
-        "team1": null,
+        "team1": {
+          "id": 1762190207046.7803,
+          "name": "Colin Jones",
+          "framesWon": 0
+        },
         "team2": null,
         "result": null
       }
     }
   ],
-  "lastUpdated": "08/11/2025, 22:18:58"
+  "lastUpdated": "08/11/2025, 22:19:42"
 }
