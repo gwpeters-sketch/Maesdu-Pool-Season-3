@@ -7,13 +7,13 @@
         {
           "id": 1762190207045.826,
           "name": "John Bowen",
-          "played": 0,
-          "won": 0,
+          "played": 1,
+          "won": 1,
           "drawn": 0,
           "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
-          "points": 0,
+          "framesFor": 4,
+          "framesAgainst": 2,
+          "points": 3,
           "phone": "07368 381757"
         },
         {
@@ -116,12 +116,12 @@
         {
           "id": 1762190207046.637,
           "name": "Gareth Peters",
-          "played": 0,
+          "played": 1,
           "won": 0,
           "drawn": 0,
-          "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
+          "lost": 1,
+          "framesFor": 2,
+          "framesAgainst": 4,
           "points": 0,
           "phone": "07876 337165",
           "notes": "Evenings (not Wed). Occasional afternoons"
@@ -258,6 +258,19 @@
   ],
   "matches": [
     {
+      "id": 1762631658630,
+      "divisionId": 1762190200307,
+      "divisionName": "Division 2",
+      "homeTeamId": 1762190229542.4602,
+      "awayTeamId": 1762190229542.6006,
+      "homeTeamName": "Robbie Hughes",
+      "awayTeamName": "Colin Young",
+      "homeScore": 3,
+      "awayScore": 3,
+      "date": "2025-11-08",
+      "timeRecorded": "19:54"
+    },
+    {
       "id": 1762541153540,
       "divisionId": 1762190200307,
       "divisionName": "Division 2",
@@ -310,21 +323,21 @@
       "timeRecorded": "23:26"
     },
     {
-      "id": 1762631658630,
-      "divisionId": 1762190200307,
-      "divisionName": "Division 2",
-      "homeTeamId": 1762190229542.4602,
-      "awayTeamId": 1762190229542.6006,
-      "homeTeamName": "Robbie Hughes",
-      "awayTeamName": "Colin Young",
-      "homeScore": 3,
-      "awayScore": 3,
+      "id": 1762645577068,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207045.826,
+      "awayTeamId": 1762190207046.637,
+      "homeTeamName": "John Bowen",
+      "awayTeamName": "Gareth Peters",
+      "homeScore": 4,
+      "awayScore": 2,
       "date": "2025-11-08",
-      "timeRecorded": "19:54"
+      "timeRecorded": "23:46"
     }
   ],
   "juniorPlayers": [],
   "juniorMatches": [],
   "finals": [],
-  "lastUpdated": "08/11/2025, 22:48:29"
+  "lastUpdated": "08/11/2025, 23:46:17"
 }
