@@ -420,14 +420,18 @@
           "team1": {
             "id": 1762190229542.3638,
             "name": "Luke Thomas",
-            "framesWon": 0
+            "framesWon": 3
           },
           "team2": {
             "id": 1762190229542.6006,
             "name": "Colin Young",
-            "framesWon": 0
+            "framesWon": 1
           },
-          "result": null
+          "result": {
+            "team1Score": 3,
+            "team2Score": 1,
+            "date": "2025-11-08T22:32:39.588Z"
+          }
         }
       ],
       "final": {
@@ -438,10 +442,14 @@
           "name": "Robbie Hughes",
           "framesWon": 0
         },
-        "team2": null,
+        "team2": {
+          "id": 1762190229542.3638,
+          "name": "Luke Thomas",
+          "framesWon": 0
+        },
         "result": null
       }
     }
   ],
-  "lastUpdated": "08/11/2025, 22:32:27"
+  "lastUpdated": "08/11/2025, 22:32:39"
 }
