@@ -67,12 +67,12 @@
         {
           "id": 1762190207046.9954,
           "name": "Steve Pettigrew",
-          "played": 7,
+          "played": 8,
           "won": 1,
           "drawn": 0,
-          "lost": 6,
-          "framesFor": 12,
-          "framesAgainst": 30,
+          "lost": 7,
+          "framesFor": 14,
+          "framesAgainst": 34,
           "points": 3,
           "phone": "07738 017141"
         },
@@ -104,13 +104,13 @@
         {
           "id": 1762190207046.7803,
           "name": "Colin Jones",
-          "played": 7,
-          "won": 2,
+          "played": 8,
+          "won": 3,
           "drawn": 4,
           "lost": 1,
-          "framesFor": 23,
-          "framesAgainst": 19,
-          "points": 10,
+          "framesFor": 27,
+          "framesAgainst": 21,
+          "points": 13,
           "phone": "07786 669400"
         },
         {
@@ -257,6 +257,19 @@
     }
   ],
   "matches": [
+    {
+      "id": 1762646685202,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207046.8584,
+      "awayTeamId": 1762190207046.637,
+      "homeTeamName": "Brad Walker",
+      "awayTeamName": "Gareth Peters",
+      "homeScore": 2,
+      "awayScore": 4,
+      "date": "2025-11-09",
+      "timeRecorded": "00:04"
+    },
     {
       "id": 1762646672814,
       "divisionId": 1762181743063,
@@ -778,13 +791,13 @@
       "timeRecorded": "23:26"
     },
     {
-      "id": 1762646685202,
+      "id": 1762646697358,
       "divisionId": 1762181743063,
       "divisionName": "Division 1",
-      "homeTeamId": 1762190207046.8584,
-      "awayTeamId": 1762190207046.637,
-      "homeTeamName": "Brad Walker",
-      "awayTeamName": "Gareth Peters",
+      "homeTeamId": 1762190207046.9954,
+      "awayTeamId": 1762190207046.7803,
+      "homeTeamName": "Steve Pettigrew",
+      "awayTeamName": "Colin Jones",
       "homeScore": 2,
       "awayScore": 4,
       "date": "2025-11-09",
@@ -794,5 +807,5 @@
   "juniorPlayers": [],
   "juniorMatches": [],
   "finals": [],
-  "lastUpdated": "09/11/2025, 00:04:45"
+  "lastUpdated": "09/11/2025, 00:04:57"
 }
