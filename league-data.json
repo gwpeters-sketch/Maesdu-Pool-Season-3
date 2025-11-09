@@ -258,6 +258,19 @@
   ],
   "matches": [
     {
+      "id": 1762647096308,
+      "divisionId": 1762190200307,
+      "divisionName": "Division 2",
+      "homeTeamId": 1762190229542.28,
+      "awayTeamId": 1762190229542.994,
+      "homeTeamName": "James Salt",
+      "awayTeamName": "Barri Rawlings",
+      "homeScore": 4,
+      "awayScore": 2,
+      "date": "2025-11-09",
+      "timeRecorded": "00:11"
+    },
+    {
       "id": 1762647085303,
       "divisionId": 1762190200307,
       "divisionName": "Division 2",
@@ -308,23 +321,10 @@
       "awayScore": 5,
       "date": "2025-11-09",
       "timeRecorded": "00:10"
-    },
-    {
-      "id": 1762647096308,
-      "divisionId": 1762190200307,
-      "divisionName": "Division 2",
-      "homeTeamId": 1762190229542.28,
-      "awayTeamId": 1762190229542.994,
-      "homeTeamName": "James Salt",
-      "awayTeamName": "Barri Rawlings",
-      "homeScore": 4,
-      "awayScore": 2,
-      "date": "2025-11-09",
-      "timeRecorded": "00:11"
     }
   ],
   "juniorPlayers": [],
   "juniorMatches": [],
   "finals": [],
-  "lastUpdated": "09/11/2025, 00:11:36"
+  "lastUpdated": "09/11/2025, 00:12:22"
 }
