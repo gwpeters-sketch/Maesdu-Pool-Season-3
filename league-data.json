@@ -31,13 +31,13 @@
         {
           "id": 1762190207046.3625,
           "name": "Brian Mercer",
-          "played": 5,
-          "won": 3,
+          "played": 6,
+          "won": 4,
           "drawn": 2,
           "lost": 0,
-          "framesFor": 23,
-          "framesAgainst": 7,
-          "points": 11,
+          "framesFor": 27,
+          "framesAgainst": 9,
+          "points": 14,
           "phone": "07723 352439"
         },
         {
@@ -79,12 +79,12 @@
         {
           "id": 1762190207046.8032,
           "name": "Neil Brown",
-          "played": 5,
+          "played": 6,
           "won": 3,
           "drawn": 2,
-          "lost": 0,
-          "framesFor": 20,
-          "framesAgainst": 10,
+          "lost": 1,
+          "framesFor": 22,
+          "framesAgainst": 14,
           "points": 11,
           "phone": "07765 830771"
         },
@@ -257,6 +257,19 @@
     }
   ],
   "matches": [
+    {
+      "id": 1762646433984,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207046.9954,
+      "awayTeamId": 1762190207046.4993,
+      "homeTeamName": "Steve Pettigrew",
+      "awayTeamName": "Steve Hughes",
+      "homeScore": 1,
+      "awayScore": 5,
+      "date": "2025-11-09",
+      "timeRecorded": "00:00"
+    },
     {
       "id": 1762646411839,
       "divisionId": 1762181743063,
@@ -635,15 +648,15 @@
       "timeRecorded": "23:26"
     },
     {
-      "id": 1762646433984,
+      "id": 1762646457426,
       "divisionId": 1762181743063,
       "divisionName": "Division 1",
-      "homeTeamId": 1762190207046.9954,
-      "awayTeamId": 1762190207046.4993,
-      "homeTeamName": "Steve Pettigrew",
-      "awayTeamName": "Steve Hughes",
-      "homeScore": 1,
-      "awayScore": 5,
+      "homeTeamId": 1762190207046.8032,
+      "awayTeamId": 1762190207046.3625,
+      "homeTeamName": "Neil Brown",
+      "awayTeamName": "Brian Mercer",
+      "homeScore": 2,
+      "awayScore": 4,
       "date": "2025-11-09",
       "timeRecorded": "00:00"
     }
@@ -651,5 +664,5 @@
   "juniorPlayers": [],
   "juniorMatches": [],
   "finals": [],
-  "lastUpdated": "09/11/2025, 00:00:33"
+  "lastUpdated": "09/11/2025, 00:00:57"
 }
