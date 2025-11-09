@@ -915,14 +915,18 @@
           "team1": {
             "id": 1762190207046.8032,
             "name": "Neil Brown",
-            "framesWon": 0
+            "framesWon": 3
           },
           "team2": {
             "id": 1762190207046.4993,
             "name": "Steve Hughes",
-            "framesWon": 0
+            "framesWon": 1
           },
-          "result": null
+          "result": {
+            "team1Score": 3,
+            "team2Score": 1,
+            "date": "2025-11-09T00:08:01.691Z"
+          }
         }
       ],
       "final": {
@@ -933,10 +937,14 @@
           "name": "Colin Jones",
           "framesWon": 0
         },
-        "team2": null,
+        "team2": {
+          "id": 1762190207046.8032,
+          "name": "Neil Brown",
+          "framesWon": 0
+        },
         "result": null
       }
     }
   ],
-  "lastUpdated": "09/11/2025, 00:07:55"
+  "lastUpdated": "09/11/2025, 00:08:01"
 }
