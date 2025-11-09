@@ -91,26 +91,26 @@
         {
           "id": 1762190207046.3696,
           "name": "Matt Lancaster",
-          "played": 6,
+          "played": 7,
           "won": 3,
-          "drawn": 2,
+          "drawn": 3,
           "lost": 1,
-          "framesFor": 21,
-          "framesAgainst": 15,
-          "points": 11,
+          "framesFor": 24,
+          "framesAgainst": 18,
+          "points": 12,
           "phone": "07921 539360",
           "notes": "Unavailable Tues/Thurs"
         },
         {
           "id": 1762190207046.7803,
           "name": "Colin Jones",
-          "played": 6,
+          "played": 7,
           "won": 2,
-          "drawn": 3,
+          "drawn": 4,
           "lost": 1,
-          "framesFor": 20,
-          "framesAgainst": 16,
-          "points": 9,
+          "framesFor": 23,
+          "framesAgainst": 19,
+          "points": 10,
           "phone": "07786 669400"
         },
         {
@@ -257,6 +257,19 @@
     }
   ],
   "matches": [
+    {
+      "id": 1762646596135,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207046.8032,
+      "awayTeamId": 1762190207046.637,
+      "homeTeamName": "Neil Brown",
+      "awayTeamName": "Gareth Peters",
+      "homeScore": 3,
+      "awayScore": 3,
+      "date": "2025-11-09",
+      "timeRecorded": "00:03"
+    },
     {
       "id": 1762646582106,
       "divisionId": 1762181743063,
@@ -726,13 +739,13 @@
       "timeRecorded": "23:26"
     },
     {
-      "id": 1762646596135,
+      "id": 1762646610308,
       "divisionId": 1762181743063,
       "divisionName": "Division 1",
-      "homeTeamId": 1762190207046.8032,
-      "awayTeamId": 1762190207046.637,
-      "homeTeamName": "Neil Brown",
-      "awayTeamName": "Gareth Peters",
+      "homeTeamId": 1762190207046.3696,
+      "awayTeamId": 1762190207046.7803,
+      "homeTeamName": "Matt Lancaster",
+      "awayTeamName": "Colin Jones",
       "homeScore": 3,
       "awayScore": 3,
       "date": "2025-11-09",
@@ -742,5 +755,5 @@
   "juniorPlayers": [],
   "juniorMatches": [],
   "finals": [],
-  "lastUpdated": "09/11/2025, 00:03:16"
+  "lastUpdated": "09/11/2025, 00:03:30"
 }
