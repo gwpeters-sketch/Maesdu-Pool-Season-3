@@ -79,13 +79,13 @@
         {
           "id": 1762190207046.8032,
           "name": "Neil Brown",
-          "played": 6,
+          "played": 7,
           "won": 3,
-          "drawn": 2,
+          "drawn": 3,
           "lost": 1,
-          "framesFor": 22,
-          "framesAgainst": 14,
-          "points": 11,
+          "framesFor": 25,
+          "framesAgainst": 17,
+          "points": 12,
           "phone": "07765 830771"
         },
         {
@@ -116,13 +116,13 @@
         {
           "id": 1762190207046.637,
           "name": "Gareth Peters",
-          "played": 6,
+          "played": 7,
           "won": 2,
-          "drawn": 3,
+          "drawn": 4,
           "lost": 1,
-          "framesFor": 19,
-          "framesAgainst": 17,
-          "points": 9,
+          "framesFor": 22,
+          "framesAgainst": 20,
+          "points": 10,
           "phone": "07876 337165",
           "notes": "Evenings (not Wed). Occasional afternoons"
         }
@@ -257,6 +257,19 @@
     }
   ],
   "matches": [
+    {
+      "id": 1762646582106,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207046.9954,
+      "awayTeamId": 1762190207046.2644,
+      "homeTeamName": "Steve Pettigrew",
+      "awayTeamName": "Trevor Warwick",
+      "homeScore": 4,
+      "awayScore": 2,
+      "date": "2025-11-09",
+      "timeRecorded": "00:03"
+    },
     {
       "id": 1762646562928,
       "divisionId": 1762181743063,
@@ -713,15 +726,15 @@
       "timeRecorded": "23:26"
     },
     {
-      "id": 1762646582106,
+      "id": 1762646596135,
       "divisionId": 1762181743063,
       "divisionName": "Division 1",
-      "homeTeamId": 1762190207046.9954,
-      "awayTeamId": 1762190207046.2644,
-      "homeTeamName": "Steve Pettigrew",
-      "awayTeamName": "Trevor Warwick",
-      "homeScore": 4,
-      "awayScore": 2,
+      "homeTeamId": 1762190207046.8032,
+      "awayTeamId": 1762190207046.637,
+      "homeTeamName": "Neil Brown",
+      "awayTeamName": "Gareth Peters",
+      "homeScore": 3,
+      "awayScore": 3,
       "date": "2025-11-09",
       "timeRecorded": "00:03"
     }
@@ -729,5 +742,5 @@
   "juniorPlayers": [],
   "juniorMatches": [],
   "finals": [],
-  "lastUpdated": "09/11/2025, 00:03:02"
+  "lastUpdated": "09/11/2025, 00:03:16"
 }
