@@ -896,14 +896,18 @@
           "team1": {
             "id": 1762190207046.3625,
             "name": "Brian Mercer",
-            "framesWon": 0
+            "framesWon": 2
           },
           "team2": {
             "id": 1762190207046.7803,
             "name": "Colin Jones",
-            "framesWon": 0
+            "framesWon": 3
           },
-          "result": null
+          "result": {
+            "team1Score": 2,
+            "team2Score": 3,
+            "date": "2025-11-09T00:07:55.547Z"
+          }
         },
         {
           "id": 1762646855102,
@@ -924,11 +928,15 @@
       "final": {
         "id": 1762646855103,
         "name": "Grand Final",
-        "team1": null,
+        "team1": {
+          "id": 1762190207046.7803,
+          "name": "Colin Jones",
+          "framesWon": 0
+        },
         "team2": null,
         "result": null
       }
     }
   ],
-  "lastUpdated": "09/11/2025, 00:07:35"
+  "lastUpdated": "09/11/2025, 00:07:55"
 }
