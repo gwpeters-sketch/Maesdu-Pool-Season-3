@@ -7,24 +7,24 @@
         {
           "id": 1762190207045.826,
           "name": "John Bowen",
-          "played": 8,
-          "won": 3,
+          "played": 9,
+          "won": 4,
           "drawn": 2,
           "lost": 3,
-          "framesFor": 23,
-          "framesAgainst": 25,
-          "points": 11,
+          "framesFor": 27,
+          "framesAgainst": 27,
+          "points": 14,
           "phone": "07368 381757"
         },
         {
           "id": 1762190207046.2644,
           "name": "Trevor Warwick",
-          "played": 8,
+          "played": 9,
           "won": 0,
           "drawn": 0,
-          "lost": 8,
-          "framesFor": 12,
-          "framesAgainst": 36,
+          "lost": 9,
+          "framesFor": 14,
+          "framesAgainst": 40,
           "points": 0,
           "phone": "07862 719066"
         },
@@ -257,6 +257,19 @@
     }
   ],
   "matches": [
+    {
+      "id": 1762646711314,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207046.8032,
+      "awayTeamId": 1762190207046.3696,
+      "homeTeamName": "Neil Brown",
+      "awayTeamName": "Matt Lancaster",
+      "homeScore": 4,
+      "awayScore": 2,
+      "date": "2025-11-09",
+      "timeRecorded": "00:05"
+    },
     {
       "id": 1762646697358,
       "divisionId": 1762181743063,
@@ -804,13 +817,13 @@
       "timeRecorded": "23:26"
     },
     {
-      "id": 1762646711314,
+      "id": 1762646750000,
       "divisionId": 1762181743063,
       "divisionName": "Division 1",
-      "homeTeamId": 1762190207046.8032,
-      "awayTeamId": 1762190207046.3696,
-      "homeTeamName": "Neil Brown",
-      "awayTeamName": "Matt Lancaster",
+      "homeTeamId": 1762190207045.826,
+      "awayTeamId": 1762190207046.2644,
+      "homeTeamName": "John Bowen",
+      "awayTeamName": "Trevor Warwick",
       "homeScore": 4,
       "awayScore": 2,
       "date": "2025-11-09",
@@ -820,5 +833,5 @@
   "juniorPlayers": [],
   "juniorMatches": [],
   "finals": [],
-  "lastUpdated": "09/11/2025, 00:05:11"
+  "lastUpdated": "09/11/2025, 00:05:50"
 }
