@@ -19,12 +19,12 @@
         {
           "id": 1762190207046.2644,
           "name": "Trevor Warwick",
-          "played": 0,
+          "played": 1,
           "won": 0,
           "drawn": 0,
-          "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
+          "lost": 1,
+          "framesFor": 1,
+          "framesAgainst": 5,
           "points": 0,
           "phone": "07862 719066"
         },
@@ -104,13 +104,13 @@
         {
           "id": 1762190207046.7803,
           "name": "Colin Jones",
-          "played": 0,
-          "won": 0,
+          "played": 1,
+          "won": 1,
           "drawn": 0,
           "lost": 0,
-          "framesFor": 0,
-          "framesAgainst": 0,
-          "points": 0,
+          "framesFor": 5,
+          "framesAgainst": 1,
+          "points": 3,
           "phone": "07786 669400"
         },
         {
@@ -256,9 +256,23 @@
       ]
     }
   ],
-  "matches": [],
+  "matches": [
+    {
+      "id": 1762647048846,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207046.2644,
+      "awayTeamId": 1762190207046.7803,
+      "homeTeamName": "Trevor Warwick",
+      "awayTeamName": "Colin Jones",
+      "homeScore": 1,
+      "awayScore": 5,
+      "date": "2025-11-09",
+      "timeRecorded": "00:10"
+    }
+  ],
   "juniorPlayers": [],
   "juniorMatches": [],
   "finals": [],
-  "lastUpdated": "09/11/2025, 00:09:47"
+  "lastUpdated": "09/11/2025, 00:10:48"
 }
