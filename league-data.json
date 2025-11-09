@@ -258,6 +258,19 @@
   ],
   "matches": [
     {
+      "id": 1762646811536,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207046.9954,
+      "awayTeamId": 1762190207046.8032,
+      "homeTeamName": "Steve Pettigrew",
+      "awayTeamName": "Neil Brown",
+      "homeScore": 3,
+      "awayScore": 3,
+      "date": "2025-11-09",
+      "timeRecorded": "00:06"
+    },
+    {
       "id": 1762646787525,
       "divisionId": 1762181743063,
       "divisionName": "Division 1",
@@ -867,23 +880,55 @@
       "awayScore": 5,
       "date": "2025-11-05",
       "timeRecorded": "23:26"
-    },
-    {
-      "id": 1762646811536,
-      "divisionId": 1762181743063,
-      "divisionName": "Division 1",
-      "homeTeamId": 1762190207046.9954,
-      "awayTeamId": 1762190207046.8032,
-      "homeTeamName": "Steve Pettigrew",
-      "awayTeamName": "Neil Brown",
-      "homeScore": 3,
-      "awayScore": 3,
-      "date": "2025-11-09",
-      "timeRecorded": "00:06"
     }
   ],
   "juniorPlayers": [],
   "juniorMatches": [],
-  "finals": [],
-  "lastUpdated": "09/11/2025, 00:06:51"
+  "finals": [
+    {
+      "id": 1762646855100,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "semis": [
+        {
+          "id": 1762646855101,
+          "name": "Semi 1: Brian Mercer v Colin Jones",
+          "team1": {
+            "id": 1762190207046.3625,
+            "name": "Brian Mercer",
+            "framesWon": 0
+          },
+          "team2": {
+            "id": 1762190207046.7803,
+            "name": "Colin Jones",
+            "framesWon": 0
+          },
+          "result": null
+        },
+        {
+          "id": 1762646855102,
+          "name": "Semi 2: Neil Brown v Steve Hughes",
+          "team1": {
+            "id": 1762190207046.8032,
+            "name": "Neil Brown",
+            "framesWon": 0
+          },
+          "team2": {
+            "id": 1762190207046.4993,
+            "name": "Steve Hughes",
+            "framesWon": 0
+          },
+          "result": null
+        }
+      ],
+      "final": {
+        "id": 1762646855103,
+        "name": "Grand Final",
+        "team1": null,
+        "team2": null,
+        "result": null
+      }
+    }
+  ],
+  "lastUpdated": "09/11/2025, 00:07:35"
 }
