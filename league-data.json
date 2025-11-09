@@ -104,25 +104,25 @@
         {
           "id": 1762190207046.7803,
           "name": "Colin Jones",
-          "played": 5,
+          "played": 6,
           "won": 2,
-          "drawn": 2,
+          "drawn": 3,
           "lost": 1,
-          "framesFor": 17,
-          "framesAgainst": 13,
-          "points": 8,
+          "framesFor": 20,
+          "framesAgainst": 16,
+          "points": 9,
           "phone": "07786 669400"
         },
         {
           "id": 1762190207046.637,
           "name": "Gareth Peters",
-          "played": 5,
+          "played": 6,
           "won": 2,
-          "drawn": 2,
+          "drawn": 3,
           "lost": 1,
-          "framesFor": 16,
-          "framesAgainst": 14,
-          "points": 8,
+          "framesFor": 19,
+          "framesAgainst": 17,
+          "points": 9,
           "phone": "07876 337165",
           "notes": "Evenings (not Wed). Occasional afternoons"
         }
@@ -257,6 +257,19 @@
     }
   ],
   "matches": [
+    {
+      "id": 1762646475720,
+      "divisionId": 1762181743063,
+      "divisionName": "Division 1",
+      "homeTeamId": 1762190207046.3696,
+      "awayTeamId": 1762190207046.2644,
+      "homeTeamName": "Matt Lancaster",
+      "awayTeamName": "Trevor Warwick",
+      "homeScore": 4,
+      "awayScore": 2,
+      "date": "2025-11-09",
+      "timeRecorded": "00:01"
+    },
     {
       "id": 1762646457426,
       "divisionId": 1762181743063,
@@ -661,15 +674,15 @@
       "timeRecorded": "23:26"
     },
     {
-      "id": 1762646475720,
+      "id": 1762646492212,
       "divisionId": 1762181743063,
       "divisionName": "Division 1",
-      "homeTeamId": 1762190207046.3696,
-      "awayTeamId": 1762190207046.2644,
-      "homeTeamName": "Matt Lancaster",
-      "awayTeamName": "Trevor Warwick",
-      "homeScore": 4,
-      "awayScore": 2,
+      "homeTeamId": 1762190207046.7803,
+      "awayTeamId": 1762190207046.637,
+      "homeTeamName": "Colin Jones",
+      "awayTeamName": "Gareth Peters",
+      "homeScore": 3,
+      "awayScore": 3,
       "date": "2025-11-09",
       "timeRecorded": "00:01"
     }
@@ -677,5 +690,5 @@
   "juniorPlayers": [],
   "juniorMatches": [],
   "finals": [],
-  "lastUpdated": "09/11/2025, 00:01:15"
+  "lastUpdated": "09/11/2025, 00:01:32"
 }
